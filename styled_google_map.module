@@ -155,7 +155,7 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
           '!wrapper' => l(t('Stream wrapper'),
           'https://drupal.org/project/system_stream_wrapper',
           array('attributes' => array('target' => '_blank'))))
-        ),
+      ),
     );
     $fields = array_keys(field_info_instances($form['#entity_type'], $form['#bundle']));
     $element['text'] = array(
