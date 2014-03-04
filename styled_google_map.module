@@ -23,8 +23,8 @@ define('STYLED_GOOGLE_MAP_DEFAULT_STREET_VIEW_CONTROL', FALSE);
 function styled_google_map_theme() {
   $themes['styled_google_map'] = array(
     'arguments' => array(
-      'location' => null,
-      'display' => null
+      'location' => NULL,
+      'display' => NULL,
     ),
   );
 
@@ -53,7 +53,7 @@ function styled_google_map_field_formatter_info() {
         'maptypecontrol' => STYLED_GOOGLE_MAP_DEFAULT_MAP_TYPE_CONTROL,
         'pancontrol' => STYLED_GOOGLE_MAP_DEFAULT_PAN_CONTROL,
         'zoomcontrol' => STYLED_GOOGLE_MAP_DEFAULT_ZOOM_CONTROL,
-        'streetviewcontrol' => STYLED_GOOGLE_MAP_DEFAULT_STREET_VIEW_CONTROL
+        'streetviewcontrol' => STYLED_GOOGLE_MAP_DEFAULT_STREET_VIEW_CONTROL,
       ),
     ),
   );
@@ -85,7 +85,7 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
   $settings = $display['settings'];
 
   if ($display['type'] == 'styled_google_map_map_formatter') {
-    $element['width'] =array(
+    $element['width'] = array(
       '#type' => 'textfield',
       '#title' => t('Width size'),
       '#default_value' => $settings['width'],
@@ -105,8 +105,8 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
       '#default_value' => $settings['style'],
       '#required' => TRUE,
       '#description' => t('Check out !url for custom styles. Also check out this !project to style and edit Google Map JSON styles.', array(
-          '!url' => l('Snazzy maps', 'http://snazzymaps.com/', array('attributes' => array('target' => '_blank'))),
-          '!project' => l('Github page', 'http://instrument.github.io/styled-maps-wizard/', array('attributes' => array('target' => '_blank'))))
+          '!url' => l(t('Snazzy maps'), 'http://snazzymaps.com/', array('attributes' => array('target' => '_blank'))),
+          '!project' => l(t('Github page'), 'http://instrument.github.io/styled-maps-wizard/', array('attributes' => array('target' => '_blank'))))
       ),
       '#required' => TRUE,
     );
@@ -135,7 +135,12 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
     );
     $element['maptype'] = array(
       '#type' => 'select',
-      '#options' => array('ROADMAP' => 'ROADMAP', 'SATELLITE' => 'SATELLITE', 'HYBRID' => 'HYBRID', 'TERRAIN' => 'TERRAIN'),
+      '#options' => array(
+        t('ROADMAP') => 'ROADMAP',
+        t('SATELLITE') => 'SATELLITE',
+        t('HYBRID') => 'HYBRID',
+        t('TERRAIN') => 'TERRAIN'
+      ),
       '#title' => t('Default map type'),
       '#default_value' => $settings['maptype'],
       '#description' => t('Should be smaller then the Min zoom level'),
@@ -194,7 +199,7 @@ function styled_google_map_field_formatter_settings_summary($field, $instance, $
   $summary = '';
 
   if ($display['type'] == 'styled_google_map_map_formatter') {
-    $readable = array(false => t('No'), true => t('Yes'));
+    $readable = array(FALSE => t('No'), TRUE => t('Yes'));
     $summary = t('Width: <b>:width</b><br />Height: <b>:height</b>',
       array(':width' => $settings['width'], ':height' => $settings['height']));
     $summary .= t('<br />Style: <b>Custom style</b>');
@@ -220,16 +225,16 @@ function styled_google_map_field_formatter_settings_summary($field, $instance, $
  *
  * @ingroup themeable
  */
-function theme_styled_google_map($vars) {
+function theme_styled_google_map($variables) {
   global $language;
-  $location = $vars['location'];
-  $display = $vars['display'];
+  $location = $variables['location'];
+  $display = $variables['display'];
   $output = array();
 
   if (!empty($location) && !empty($location['lat']) && !empty($location['lon'])) {
     $settings = $display['settings'];
     $node = menu_get_object();
-    (isset($settings['pin'])) ? $settings['pin'] = file_create_url($settings['pin']) : null;
+    (isset($settings['pin'])) ? $settings['pin'] = file_create_url($settings['pin']) : NULL;
     ($settings['label']) ? $settings['label'] = 'inline' : $settings['label'] = 'hidden';
     (isset($node->nid)) ? $settings['text'] = render(field_view_field('node', $node, $settings['text'], $display = array('label' => $settings['label']), $language->language)) : $settings['text'] = '';
     drupal_add_js('http://maps.google.com/maps/api/js?sensor=true', array('type' => 'external', 'group' => JS_LIBRARY));
