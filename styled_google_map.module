@@ -136,10 +136,10 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
     $element['maptype'] = array(
       '#type' => 'select',
       '#options' => array(
-        t('ROADMAP') => 'ROADMAP',
-        t('SATELLITE') => 'SATELLITE',
-        t('HYBRID') => 'HYBRID',
-        t('TERRAIN') => 'TERRAIN',
+        'ROADMAP') => 'ROADMAP',
+        'SATELLITE' => t('SATELLITE'),
+        'HYBRID' => t('HYBRID'),
+        'TERRAIN' => t('TERRAIN'),
       ),
       '#title' => t('Default map type'),
       '#default_value' => $settings['maptype'],
@@ -151,9 +151,11 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
       '#title' => t('URL to the marker'),
       '#default_value' => $settings['pin'],
       '#description' => t('URL to the marker image. You can use a !wrapper for the url.',
-        array('!wrapper' => l(t('Stream wrapper'),
+        array(
+          '!wrapper' => l(t('Stream wrapper'),
           'https://drupal.org/project/system_stream_wrapper',
-          array('attributes' => array('target' => '_blank'))))),
+          array('attributes' => array('target' => '_blank'))))
+        ),
     );
     $fields = array_keys(field_info_instances($form['#entity_type'], $form['#bundle']));
     $element['text'] = array(
@@ -243,9 +245,8 @@ function theme_styled_google_map($variables) {
     drupal_add_js(array('map_location' => $location), 'setting');
     drupal_add_js(array('map_settings' => $settings), 'setting');
     drupal_add_js(drupal_get_path('module', 'styled_google_map') . '/styled-google-map.js');
-    $output['styled_google_map']['#markup'] = '<div style="width:' . $settings['width'] . ';height:' . $settings['height'].';" id="styled-google-map"></div>';
+    $output['styled_google_map']['#markup'] = '<div style="width:' . $settings['width'] . ';height:' . $settings['height'] . ';" id="styled-google-map"></div>';
   }
 
   return render($output);
 }
-
