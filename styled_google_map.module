@@ -136,7 +136,7 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
     $element['maptype'] = array(
       '#type' => 'select',
       '#options' => array(
-        'ROADMAP') => 'ROADMAP',
+        'ROADMAP' => t('ROADMAP'),
         'SATELLITE' => t('SATELLITE'),
         'HYBRID' => t('HYBRID'),
         'TERRAIN' => t('TERRAIN'),
