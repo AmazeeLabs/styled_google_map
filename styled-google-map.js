@@ -9,13 +9,15 @@ jQuery(window).load(function() {
     'HYBRID': google.maps.MapTypeId.HYBRID,
     'TERRAIN': google.maps.MapTypeId.TERRAIN,
   }
+  var map_style = (map_settings.style.style != '' ? map_settings.style.style : '[]');
+  // var map_pin = (map_settings.style.pin != '' ? map_settings.style.pin : '');
   var init_map = {
-    zoom: parseInt(map_settings.zoom),
-    mapTypeId: map_types[map_settings.maptype],
+    zoom: parseInt(map_settings.zoom.default),
+    mapTypeId: map_types[map_settings.style.maptype],
     disableDefaultUI: !map_settings.ui,
-    maxZoom: parseInt(map_settings.maxzoom),
-    minZoom: parseInt(map_settings.minzoom),
-    styles: JSON.parse(map_settings.style),
+    maxZoom: parseInt(map_settings.zoom.max),
+    minZoom: parseInt(map_settings.zoom.min),
+    styles: JSON.parse(map_style),
     mapTypeControl: map_settings.maptypecontrol,
     panControl: map_settings.pancontrol,
     zoomControl: map_settings.zoomcontrol,
@@ -26,11 +28,11 @@ jQuery(window).load(function() {
   var marker = new google.maps.Marker({
     position: new google.maps.LatLng(map_location.lat , map_location.lon),
     map: map,
-    html: map_settings.text,
-    icon: map_settings.pin
+    html: map_settings.popup.text,
+    icon: map_settings.style.pin,
   });
   google.maps.event.addListener(marker, 'click', function () {
-    if (map_settings.text) {
+    if (map_settings.popup.text) {
       infowindow.setContent(this.html);
       infowindow.open(map, this);
     }

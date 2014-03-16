@@ -12,10 +12,10 @@ define('STYLED_GOOGLE_MAP_DEFAULT_MIN_ZOOM', 5);
 define('STYLED_GOOGLE_MAP_DEFAULT_PIN', 'module://styled_google_map/pin.png');
 define('STYLED_GOOGLE_MAP_DEFAULT_MAP_TYPE', 'google.maps.MapTypeId.ROADMAP');
 define('STYLED_GOOGLE_MAP_DEFAULT_LABEL', FALSE);
-define('STYLED_GOOGLE_MAP_DEFAULT_MAP_TYPE_CONTROL', FALSE);
-define('STYLED_GOOGLE_MAP_DEFAULT_PAN_CONTROL', FALSE);
-define('STYLED_GOOGLE_MAP_DEFAULT_ZOOM_CONTROL', FALSE);
-define('STYLED_GOOGLE_MAP_DEFAULT_STREET_VIEW_CONTROL', FALSE);
+define('STYLED_GOOGLE_MAP_DEFAULT_MAP_TYPE_CONTROL', TRUE);
+define('STYLED_GOOGLE_MAP_DEFAULT_PAN_CONTROL', TRUE);
+define('STYLED_GOOGLE_MAP_DEFAULT_ZOOM_CONTROL', TRUE);
+define('STYLED_GOOGLE_MAP_DEFAULT_STREET_VIEW_CONTROL', TRUE);
 
 /**
  * Implements hook_theme().
@@ -43,14 +43,22 @@ function styled_google_map_field_formatter_info() {
       'settings' => array(
         'width' => STYLED_GOOGLE_MAP_DEFAULT_WIDTH,
         'height' => STYLED_GOOGLE_MAP_DEFAULT_HEIGHT,
-        'style' => NULL,
-        'zoom' => STYLED_GOOGLE_MAP_DEFAULT_ZOOM,
-        'maxzoom' => STYLED_GOOGLE_MAP_DEFAULT_MAX_ZOOM,
-        'minzoom' => STYLED_GOOGLE_MAP_DEFAULT_MIN_ZOOM,
-        'maptype' => STYLED_GOOGLE_MAP_DEFAULT_MAP_TYPE,
-        'pin' => STYLED_GOOGLE_MAP_DEFAULT_PIN,
-        'text' => NULL,
-        'label' => STYLED_GOOGLE_MAP_DEFAULT_LABEL,
+        'style' => array(
+          'maptype' => STYLED_GOOGLE_MAP_DEFAULT_MAP_TYPE,
+          'style' => '[]',
+          'pin' => '',
+        ),
+        'popup' => array(
+          'choice' => NULL,
+          'text' => NULL,
+          'view_mode' => NULL,
+          'label' => STYLED_GOOGLE_MAP_DEFAULT_LABEL,
+        ),
+        'zoom' => array(
+          'default' => STYLED_GOOGLE_MAP_DEFAULT_ZOOM,
+          'max' => STYLED_GOOGLE_MAP_DEFAULT_MAX_ZOOM,
+          'min' => STYLED_GOOGLE_MAP_DEFAULT_MIN_ZOOM,
+        ),
         'maptypecontrol' => STYLED_GOOGLE_MAP_DEFAULT_MAP_TYPE_CONTROL,
         'pancontrol' => STYLED_GOOGLE_MAP_DEFAULT_PAN_CONTROL,
         'zoomcontrol' => STYLED_GOOGLE_MAP_DEFAULT_ZOOM_CONTROL,
@@ -88,6 +96,7 @@ function styled_google_map_field_formatter_view($entity_type, $entity, $field, $
  * Implements hook_field_formatter_settings_form().
  */
 function styled_google_map_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  ctools_include('dependent');
   $element = array();
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
@@ -97,52 +106,23 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
       '#type' => 'textfield',
       '#title' => t('Width size'),
       '#default_value' => $settings['width'],
-      '#description' => t('In pixels or percentage'),
+      '#description' => t('Map width written in pixels or percentage'),
       '#required' => TRUE,
     );
     $element['height'] = array(
       '#type' => 'textfield',
       '#title' => t('Height size'),
       '#default_value' => $settings['height'],
-      '#description' => t('In pixels or percentage'),
+      '#description' => t('Map height written in pixels or percentage'),
       '#required' => TRUE,
     );
     $element['style'] = array(
-      '#type' => 'textarea',
-      '#title' => t('JSON Style'),
-      '#default_value' => $settings['style'],
-      '#required' => TRUE,
-      '#description' => t('Check out !url for custom styles. Also check out this !project to style and edit Google Map JSON styles.', array(
-          '!url' => l(t('Snazzy maps'), 'http://snazzymaps.com/', array('attributes' => array('target' => '_blank'))),
-          '!project' => l(t('Github page'), 'http://instrument.github.io/styled-maps-wizard/', array('attributes' => array('target' => '_blank'))))
-      ),
-      '#required' => TRUE,
+      '#type' => 'fieldset',
+      '#title' => t('Map style'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
     );
-    $element['zoom'] = array(
-      '#type' => 'select',
-      '#options' => array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
-      '#title' => t('Default zoom level'),
-      '#default_value' => $settings['zoom'],
-      '#description' => t('Should be between the Min and Max zoom level.'),
-      '#required' => TRUE,
-    );
-    $element['maxzoom'] = array(
-      '#type' => 'select',
-      '#options' => array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
-      '#title' => t('Max zoom level'),
-      '#default_value' => $settings['maxzoom'],
-      '#description' => t('Should be greater then the Min zoom level.'),
-      '#required' => TRUE,
-    );
-    $element['minzoom'] = array(
-      '#type' => 'select',
-      '#options' => array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
-      '#title' => t('Min zoom level'),
-      '#default_value' => $settings['minzoom'],
-      '#description' => t('Should be smaller then the Max zoom level.'),
-      '#required' => TRUE,
-    );
-    $element['maptype'] = array(
+    $element['style']['maptype'] = array(
       '#type' => 'select',
       '#options' => array(
         'ROADMAP' => t('ROADMAP'),
@@ -150,33 +130,111 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
         'HYBRID' => t('HYBRID'),
         'TERRAIN' => t('TERRAIN'),
       ),
-      '#title' => t('Default map type'),
-      '#default_value' => $settings['maptype'],
+      '#title' => t('Map type'),
+      '#default_value' => $settings['style']['maptype'],
       '#required' => TRUE,
     );
-    $element['pin'] = array(
+    $element['style']['style'] = array(
+      '#type' => 'textarea',
+      '#title' => t('JSON Style'),
+      '#default_value' => $settings['style']['style'],
+      '#description' => t('Check out !url for custom styles. Also check out this !project to style and edit Google Map JSON styles.', array(
+          '!url' => l(t('Snazzy maps'), 'http://snazzymaps.com/', array('attributes' => array('target' => '_blank'))),
+          '!project' => l(t('Github page'), 'http://instrument.github.io/styled-maps-wizard/', array('attributes' => array('target' => '_blank'))))
+      ),
+    );
+    $element['style']['pin'] = array(
       '#type' => 'textfield',
       '#title' => t('URL to the marker'),
-      '#default_value' => $settings['pin'],
-      '#description' => t('URL to the marker image. You can use a !wrapper for the url.',
+      '#default_value' => $settings['style']['pin'],
+      '#description' => t('URL to the marker image. You can use a !wrapper for the url. Ex. !example',
         array(
           '!wrapper' => l(t('Stream wrapper'),
           'https://drupal.org/project/system_stream_wrapper',
-          array('attributes' => array('target' => '_blank'))))
+          array('attributes' => array('target' => '_blank'))),
+          '!example' => STYLED_GOOGLE_MAP_DEFAULT_PIN)
       ),
-      '#required' => TRUE,
+    );
+    $element['popup'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Marker popup'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+    $element['popup']['choice'] = array(
+      '#type' => 'select',
+      '#options' => array(0 => t('None'), 1 => t('Field'), 2 => t('View mode')),
+      '#default_value' => $settings['popup']['choice'],
+      '#id' => 'edit-popup-choice-field',
+    );
+    $entity_info = entity_get_info($instance['entity_type']);
+    $view_mode_settings = field_view_mode_settings($instance['entity_type'], 'location');
+    $view_modes = array();
+    foreach ($view_mode_settings as $view_mode => $value) {
+      if ($value['custom_settings']) {
+        $view_modes[$view_mode] = $view_mode;
+      }
+    }
+    $element['popup']['view_mode'] = array(
+      '#type' => 'select',
+      '#options' => $view_modes,
+      '#default_value' => $settings['popup']['view_mode'],
+      '#states' => array(
+        'visible' => array(
+         ':input[id="edit-popup-choice-field"]' => array('value' => 2),
+        ),
+      ),
     );
     $fields = array_keys(field_info_instances($form['#entity_type'], $form['#bundle']));
-    $element['text'] = array(
+    $element['popup']['text'] = array(
       '#type' => 'select',
-      '#title' => t('Popup text for the marker'),
-      '#options' => array(0 => t('None')) + array_combine($fields, $fields),
-      '#default_value' => $settings['text'],
+      '#options' => array_combine($fields, $fields),
+      '#default_value' => $settings['popup']['text'],
+      '#states' => array(
+        'visible' => array(
+         ':input[id="edit-popup-choice-field"]' => array('value' => 1),
+        ),
+      ),
     );
-    $element['label'] = array(
+    $element['popup']['label'] = array(
       '#type' => 'checkbox',
       '#title' => t('Show field label'),
-      '#default_value' => $settings['label'],
+      '#default_value' => $settings['popup']['label'],
+      '#states' => array(
+        'visible' => array(
+         ':input[id="edit-popup-choice-field"]' => array('value' => 1),
+        ),
+      ),
+    );
+    $element['zoom'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Zoom'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+    $element['zoom']['default'] = array(
+      '#type' => 'select',
+      '#options' => array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
+      '#title' => t('Default zoom level'),
+      '#default_value' => $settings['zoom']['default'],
+      '#description' => t('Should be between the Min and Max zoom level.'),
+      '#required' => TRUE,
+    );
+    $element['zoom']['max'] = array(
+      '#type' => 'select',
+      '#options' => array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
+      '#title' => t('Max zoom level'),
+      '#default_value' => $settings['zoom']['max'],
+      '#description' => t('Should be greater then the Min zoom level.'),
+      '#required' => TRUE,
+    );
+    $element['zoom']['min'] = array(
+      '#type' => 'select',
+      '#options' => array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
+      '#title' => t('Min zoom level'),
+      '#default_value' => $settings['zoom']['min'],
+      '#description' => t('Should be smaller then the Max zoom level.'),
+      '#required' => TRUE,
     );
     $element['maptypecontrol'] = array(
       '#type' => 'checkbox',
@@ -214,16 +272,27 @@ function styled_google_map_field_formatter_settings_summary($field, $instance, $
   if ($display['type'] == 'styled_google_map_map_formatter') {
     $summary = t('Width: <b>:width</b><br />Height: <b>:height</b>',
       array(':width' => $settings['width'], ':height' => $settings['height']));
-    $summary .= t('<br />Style: <b>Custom style</b>');
-    $summary .= t('<br />Default zoom: <b>:zoom</b>', array(':zoom' => $settings['zoom']));
-    $summary .= t('<br />Maximum zoom: <b>:maxzoom</b>', array(':maxzoom' => $settings['maxzoom']));
-    $summary .= t('<br />Minimum zoom: <b>:minzoom</b>', array(':minzoom' => $settings['minzoom']));
-    $summary .= t('<br />Map type: <b>:maptype</b>', array(':maptype' => $settings['maptype']));
-    $summary .= t('<br />Pin location: <b>:pin</b>', array(':pin' => $settings['pin']));
-    ($settings['text']) ? $readable = $settings['text'] : $readable = t('None');
-    $summary .= t('<br />Popup text: <b>:text</b>', array(':text' => $readable));
-    $readable = array(FALSE => t('No'), TRUE => t('Yes'));
-    $summary .= t('<br />Show label: <b>:label</b>', array(':label' => $readable[$settings['label']]));
+    if ($settings['style']['style']) {
+      $summary .= t('<br />Map style: <b>Custom</b>');
+    }
+    if ($settings['style']['pin']) {
+      $summary .= t('<br />Pin style: <b>:pin</b>', array(':pin' => $settings['style']['pin']));
+    }
+    $summary .= t('<br />Map type: <b>:maptype</b>', array(':maptype' => $settings['style']['maptype']));
+    if ($settings['style']['pin']) {
+      $summary .= t('<br />Pin location: <b>:pin</b>', array(':pin' => $settings['style']['pin']));
+    }
+    if ($settings['popup']['choice'] == 1) {
+      $summary .= t('<br />Popup shows field <b>:field</b> ', array(':field' => $settings['popup']['text']));
+      $readable = array(FALSE => t('without'), TRUE => t('with'));
+      $summary .= t('<b>:label</b> label', array(':label' => $readable[$settings['popup']['label']]));
+    }
+    if ($settings['popup']['choice'] == 2) {
+      $summary .= t('<br />Popup shows view mode <b>:viewmode</b>', array(':viewmode' => $settings['popup']['view_mode']));
+    }
+    $summary .= t('<br />Default zoom: <b>:zoom</b>', array(':zoom' => $settings['zoom']['default']));
+    $summary .= t('<br />Maximum zoom: <b>:maxzoom</b>', array(':maxzoom' => $settings['zoom']['max']));
+    $summary .= t('<br />Minimum zoom: <b>:minzoom</b>', array(':minzoom' => $settings['zoom']['min']));
   }
 
   return $summary;
@@ -250,15 +319,24 @@ function theme_styled_google_map($variables) {
   // TODO: Split this function so logic is out of the theming function.
   if (!empty($location) && !empty($location['geohash'])) {
     // Get the pin file url.
-    (isset($settings['pin'])) ? $settings['pin'] = file_create_url($settings['pin']) : NULL;
+    if (isset($settings['style']['pin']) && !empty($settings['style']['pin'])) {
+      $settings['style']['pin'] = file_create_url($settings['style']['pin']);
+    }
+
     // Get the label settings.
     if (isset($node->nid)) {
-      ($settings['label']) ? $settings['label'] = 'inline' : $settings['label'] = 'hidden';
-      $popup_field = field_view_field('node', $node, $settings['text'], $display = array(
-        'label' => $settings['label']), $language->language);
-      $settings['text'] = render($popup_field);
-    } else {
-      $settings['text'] = '';
+      switch ($settings['popup']['choice']) {
+        case 1: // Create popup from label.
+          $settings['popup']['label'] =  $settings['popup']['label'] ? 'inline' : 'hidden';
+          $popup_field = field_view_field('node', $node, $settings['popup']['text'], $display = array('label' => $settings['popup']['label']), $language->language);
+          break;
+        case 2: // Create popup from view mode.
+          $popup_field = field_attach_view('node', $node, 'teaser', $language->language);
+          break;
+        default: // Default to empty.
+          $popup_field = array();
+      }
+      $settings['popup']['text'] = render($popup_field);
     }
 
     // Include the Google Maps API.
