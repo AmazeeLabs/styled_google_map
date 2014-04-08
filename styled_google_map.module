@@ -26,6 +26,7 @@ function styled_google_map_theme() {
       'location' => NULL,
       'display' => NULL,
       'entity' => NULL,
+      'entity_type' => NULL,
     ),
   );
 
@@ -84,6 +85,7 @@ function styled_google_map_field_formatter_view($entity_type, $entity, $field, $
           'location' => $items[0],
           'display' => $display,
           'entity' => $entity,
+          'entity_type' => $entity_type,
         )
       );
     }
@@ -312,7 +314,8 @@ function theme_styled_google_map($variables) {
   global $language;
   $location = $variables['location'];
   $display = $variables['display'];
-  $node = $variables['entity'];
+  $entity = $variables['entity'];
+  $entity_type = $variables['entity_type'];
   $settings = $display['settings'];
   $output = array();
 
@@ -324,19 +327,21 @@ function theme_styled_google_map($variables) {
     }
 
     // Get the label settings.
-    if (isset($node->nid)) {
+    if (isset($entity) && !empty($entity)) {
       switch ($settings['popup']['choice']) {
         case 1: // Create popup from label.
           $settings['popup']['label'] =  $settings['popup']['label'] ? 'inline' : 'hidden';
-          $popup_field = field_view_field('node', $node, $settings['popup']['text'], $display = array('label' => $settings['popup']['label']), $language->language);
+          $popup_field = field_view_field($entity_type, $entity, $settings['popup']['text'], $display = array('label' => $settings['popup']['label']), $language->language);
           break;
         case 2: // Create popup from view mode.
-          $popup_field = field_attach_view('node', $node, 'teaser', $language->language);
+          $popup_field = field_attach_view($entity_type, $entity, 'teaser', $language->language);
           break;
         default: // Default to empty.
           $popup_field = array();
       }
       $settings['popup']['text'] = render($popup_field);
+    } else { // Not a node.
+      $settings['popup']['text'] = array();;
     }
 
     // Include the Google Maps API.
