@@ -340,8 +340,8 @@ function theme_styled_google_map($variables) {
           $popup_field = array();
       }
       $settings['popup']['text'] = render($popup_field);
-    } else { // Not a node.
-      $settings['popup']['text'] = array();;
+    } else { // Not an entity object.
+      $settings['popup']['text'] = array();
     }
 
     // Include the Google Maps API.
