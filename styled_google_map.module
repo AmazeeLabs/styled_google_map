@@ -169,7 +169,6 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
       '#default_value' => $settings['popup']['choice'],
       '#id' => 'edit-popup-choice-field',
     );
-    $entity_info = entity_get_info($instance['entity_type']);
     $view_mode_settings = field_view_mode_settings($instance['entity_type'], 'location');
     $view_modes = array();
     foreach ($view_mode_settings as $view_mode => $value) {
