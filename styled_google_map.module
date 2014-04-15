@@ -338,7 +338,7 @@ function theme_styled_google_map($variables) {
         case 2:
           $popup_field = field_attach_view($entity_type, $entity, 'teaser', $language->language);
           break;
-          
+
         // Default to empty.
         default:
           $popup_field = array();
