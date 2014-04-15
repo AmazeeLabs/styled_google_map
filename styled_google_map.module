@@ -330,13 +330,15 @@ function theme_styled_google_map($variables) {
       switch ($settings['popup']['choice']) {
         // Create popup from label.
         case 1:
-          $settings['popup']['label'] =  $settings['popup']['label'] ? 'inline' : 'hidden';
+          $settings['popup']['label'] = $settings['popup']['label'] ? 'inline' : 'hidden';
           $popup_field = field_view_field($entity_type, $entity, $settings['popup']['text'], $display = array('label' => $settings['popup']['label']), $language->language);
           break;
+
         // Create popup from view mode.
         case 2:
           $popup_field = field_attach_view($entity_type, $entity, 'teaser', $language->language);
           break;
+          
         // Default to empty.
         default:
           $popup_field = array();
