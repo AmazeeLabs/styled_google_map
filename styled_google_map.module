@@ -183,7 +183,7 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
       '#default_value' => $settings['popup']['view_mode'],
       '#states' => array(
         'visible' => array(
-         ':input[id="edit-popup-choice-field"]' => array('value' => 2),
+          ':input[id="edit-popup-choice-field"]' => array('value' => 2),
         ),
       ),
     );
@@ -194,7 +194,7 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
       '#default_value' => $settings['popup']['text'],
       '#states' => array(
         'visible' => array(
-         ':input[id="edit-popup-choice-field"]' => array('value' => 1),
+          ':input[id="edit-popup-choice-field"]' => array('value' => 1),
         ),
       ),
     );
@@ -204,7 +204,7 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
       '#default_value' => $settings['popup']['label'],
       '#states' => array(
         'visible' => array(
-         ':input[id="edit-popup-choice-field"]' => array('value' => 1),
+          ':input[id="edit-popup-choice-field"]' => array('value' => 1),
         ),
       ),
     );
@@ -285,7 +285,7 @@ function styled_google_map_field_formatter_settings_summary($field, $instance, $
       $summary .= t('<br />Pin location: <b>:pin</b>', array(':pin' => $settings['style']['pin']));
     }
     if ($settings['popup']['choice'] == 1) {
-      $summary .= t('<br />Popup shows field <b>:field</b> ', array(':field' => $settings['popup']['text']));
+      $summary .= t('<br />Popup shows field <b>:field</b>', array(':field' => $settings['popup']['text']));
       $readable = array(FALSE => t('without'), TRUE => t('with'));
       $summary .= t('<b>:label</b> label', array(':label' => $readable[$settings['popup']['label']]));
     }
@@ -329,18 +329,23 @@ function theme_styled_google_map($variables) {
     // Get the label settings.
     if (isset($entity) && !empty($entity)) {
       switch ($settings['popup']['choice']) {
-        case 1: // Create popup from label.
+        // Create popup from label.
+        case 1:
           $settings['popup']['label'] =  $settings['popup']['label'] ? 'inline' : 'hidden';
           $popup_field = field_view_field($entity_type, $entity, $settings['popup']['text'], $display = array('label' => $settings['popup']['label']), $language->language);
           break;
-        case 2: // Create popup from view mode.
+        // Create popup from view mode.
+        case 2:
           $popup_field = field_attach_view($entity_type, $entity, 'teaser', $language->language);
           break;
-        default: // Default to empty.
+        // Default to empty.
+        default:
           $popup_field = array();
       }
       $settings['popup']['text'] = render($popup_field);
-    } else { // Not an entity object.
+    }
+    else {
+      // Not an entity object.
       $settings['popup']['text'] = array();
     }
 
@@ -351,12 +356,12 @@ function theme_styled_google_map($variables) {
     // Include the custom map settings.
     drupal_add_js(array('map_settings' => $settings), 'setting');
     // Include the unique div id.
-    drupal_add_js(array('map_id' => 'styled-google-map-'.$variables['location']['geohash']), 'setting');
+    drupal_add_js(array('map_id' => 'styled-google-map-' . $variables['location']['geohash']), 'setting');
     // Include the styled google map javascript file.
     drupal_add_js(drupal_get_path('module', 'styled_google_map') . '/styled-google-map.js');
 
     // Output a div placeholder for the Styled Google Map.
-    $output['styled_google_map']['#markup'] = '<div style="width:' . $settings['width'] . ';height:' . $settings['height'] . ';" id="styled-google-map-'.$variables['location']['geohash'].'"></div>';
+    $output['styled_google_map']['#markup'] = '<div style="width:' . $settings['width'] . ';height:' . $settings['height'] . ';" id="styled-google-map-' . $variables['location']['geohash'] . '"></div>';
   }
 
   return render($output);
