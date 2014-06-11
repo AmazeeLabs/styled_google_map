@@ -2,6 +2,8 @@
 /**
  * @file
  * Contains all hooks and functions for the Styled Google Map module
+ *
+ * @author Nicky Vandevoorde <nicky.vandevoorde@gmail.com>
  */
 
 define('STYLED_GOOGLE_MAP_DEFAULT_WIDTH', '450px');

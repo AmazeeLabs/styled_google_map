@@ -7,10 +7,9 @@ jQuery(window).load(function() {
     'ROADMAP': google.maps.MapTypeId.ROADMAP,
     'SATELLITE': google.maps.MapTypeId.SATELLITE,
     'HYBRID': google.maps.MapTypeId.HYBRID,
-    'TERRAIN': google.maps.MapTypeId.TERRAIN,
+    'TERRAIN': google.maps.MapTypeId.TERRAIN
   }
   var map_style = (map_settings.style.style != '' ? map_settings.style.style : '[]');
-  // var map_pin = (map_settings.style.pin != '' ? map_settings.style.pin : '');
   var init_map = {
     zoom: parseInt(map_settings.zoom.default),
     mapTypeId: map_types[map_settings.style.maptype],
@@ -29,7 +28,7 @@ jQuery(window).load(function() {
     position: new google.maps.LatLng(map_location.lat , map_location.lon),
     map: map,
     html: map_settings.popup.text,
-    icon: map_settings.style.pin,
+    icon: map_settings.style.pin
   });
   google.maps.event.addListener(marker, 'click', function () {
     if (map_settings.popup.text) {

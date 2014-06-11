@@ -1,7 +1,7 @@
 SUMMARY
 -------
 The Styled Google Map module can embed a Google Map to any node entity.
-The module nicely integrates as a geofield formatter. You can overwrite the
+The module nicely integrates as a Geofield formatter. You can overwrite the
 theming function if necessary.
 
 REQUIREMENTS
@@ -19,7 +19,7 @@ CONFIGURATION
  * Configure configuration in Structure » Content Types » Your content type:
   - Include a Geofield for your node content type.
   - In the Display View, choose Styled Google Map as format.
-  - Give in your dessired Google Map settings.
+  - Give in your desired Google Map settings.
 
 Suggestions for additional settings are most welcome.
 
