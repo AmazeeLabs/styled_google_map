@@ -217,7 +217,7 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
     );
     $element['zoom']['default'] = array(
       '#type' => 'select',
-      '#options' => array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
+      '#options' => range(1, 19),
       '#title' => t('Default zoom level'),
       '#default_value' => $settings['zoom']['default'],
       '#description' => t('Should be between the Min and Max zoom level.'),
@@ -225,7 +225,7 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
     );
     $element['zoom']['max'] = array(
       '#type' => 'select',
-      '#options' => array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
+      '#options' => range(1, 19),
       '#title' => t('Max zoom level'),
       '#default_value' => $settings['zoom']['max'],
       '#description' => t('Should be greater then the Min zoom level.'),
@@ -233,7 +233,7 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
     );
     $element['zoom']['min'] = array(
       '#type' => 'select',
-      '#options' => array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19),
+      '#options' => range(1, 19),
       '#title' => t('Min zoom level'),
       '#default_value' => $settings['zoom']['min'],
       '#description' => t('Should be smaller then the Max zoom level.'),
