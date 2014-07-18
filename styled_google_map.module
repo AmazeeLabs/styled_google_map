@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains all hooks and functions for the Styled Google Map module
+ * Contains all hooks and functions for the Styled Google Map module.
  *
  * @author Nicky Vandevoorde <nicky.vandevoorde@gmail.com>
  */
@@ -79,6 +79,7 @@ function styled_google_map_field_formatter_info() {
 function styled_google_map_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $elements = array();
 
+  // Theme the single field element to a Styled Google Map with given theme variables.
   if ($display['type'] == 'styled_google_map_map_formatter') {
     if (isset($items[0])) {
       $elements[0]['#markup'] = theme(
@@ -100,11 +101,13 @@ function styled_google_map_field_formatter_view($entity_type, $entity, $field, $
  * Implements hook_field_formatter_settings_form().
  */
 function styled_google_map_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  // Include CTools dependent to hide/show our form fields.
   ctools_include('dependent');
   $element = array();
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
+  // Set all available setting fields for the Styled Google Map.
   if ($display['type'] == 'styled_google_map_map_formatter') {
     $element['width'] = array(
       '#type' => 'textfield',
@@ -171,8 +174,10 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
       '#default_value' => $settings['popup']['choice'],
       '#id' => 'edit-popup-choice-field',
     );
+    // Retrieve view mode settings from the current entity bundle.
     $view_mode_settings = field_view_mode_settings($instance['entity_type'], 'location');
     $view_modes = array();
+    // Loop the and put all available view modes in an array.
     foreach ($view_mode_settings as $view_mode => $value) {
       if ($value['custom_settings']) {
         $view_modes[$view_mode] = $view_mode;
@@ -188,6 +193,7 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
         ),
       ),
     );
+    // Retrieve all field names from the current entity bundle.
     $fields = array_keys(field_info_instances($form['#entity_type'], $form['#bundle']));
     $element['popup']['text'] = array(
       '#type' => 'select',
@@ -272,6 +278,7 @@ function styled_google_map_field_formatter_settings_summary($field, $instance, $
   $settings = $display['settings'];
   $summary = '';
 
+  // Set a summary of all field settings that will be displayed in the entity view mode.
   if ($display['type'] == 'styled_google_map_map_formatter') {
     $summary = t('Width: <b>:width</b><br />Height: <b>:height</b>',
       array(':width' => $settings['width'], ':height' => $settings['height']));
@@ -311,7 +318,7 @@ function styled_google_map_field_formatter_settings_summary($field, $instance, $
  *
  * @ingroup themeable
  */
-function theme_styled_google_map($variables) {
+function theme_styled_google_map($variables = array()) {
   global $language;
   $location = $variables['location'];
   $display = $variables['display'];
