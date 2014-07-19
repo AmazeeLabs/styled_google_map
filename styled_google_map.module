@@ -79,7 +79,7 @@ function styled_google_map_field_formatter_info() {
 function styled_google_map_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $elements = array();
 
-  // Theme the single field element to a Styled Google Map with given theme variables.
+  // Theme field element to a Styled Google Map with given theme variables.
   if ($display['type'] == 'styled_google_map_map_formatter') {
     if (isset($items[0])) {
       $elements[0]['#markup'] = theme(
@@ -278,7 +278,7 @@ function styled_google_map_field_formatter_settings_summary($field, $instance, $
   $settings = $display['settings'];
   $summary = '';
 
-  // Set a summary of all field settings that will be displayed in the entity view mode.
+  // Set summary of all settings to be displayed in the entity view mode.
   if ($display['type'] == 'styled_google_map_map_formatter') {
     $summary = t('Width: <b>:width</b><br />Height: <b>:height</b>',
       array(':width' => $settings['width'], ':height' => $settings['height']));
@@ -318,7 +318,7 @@ function styled_google_map_field_formatter_settings_summary($field, $instance, $
  *
  * @ingroup themeable
  */
-function theme_styled_google_map($variables = array()) {
+function theme_styled_google_map(array $variables) {
   global $language;
   $location = $variables['location'];
   $display = $variables['display'];
