@@ -349,7 +349,7 @@ function theme_styled_google_map(array $variables) {
           // Render field groups in case it is included in the attached view.
           if (module_exists('field_group')) {
             // This is a little hack as we have to pass something to being able
-            // to execute the field groups function @see field_group_fields_nest.
+            // to execute the field groups nesting function.
             $entity_reference[] = $entity;
             field_group_fields_nest($popup_field, $entity_reference);
           }

@@ -5,14 +5,15 @@
  * A single or multiple Styled Google Maps will be initiated.
  * Drupal behaviors are used to make sure ajax called map(s) are correctly loaded.
  */
+
 (function ($) {
   Drupal.behaviors.styled_google_map = {
     attach: function (context) {
       var maps = Drupal.settings.styled_google_map;
       for (i in maps) {
-          var current_map = Drupal.settings['id'+maps[i]];
+          var current_map = Drupal.settings['id' + maps[i]];
           var map_id = current_map.id;
-          if ($('#'+map_id).length) {
+          if ($('#' + map_id).length) {
           var map_location = current_map.location;
           var map_settings = current_map.settings;
           var bounds = new google.maps.LatLngBounds();
