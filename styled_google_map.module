@@ -341,7 +341,7 @@ function theme_styled_google_map(array $variables) {
     // Sanitize the output of the style settings.
     foreach ($settings['style'] as $id => $setting) {
       $settings['style'][$id] = filter_xss($setting);
-    }dsm($settings);
+    }
 
     // Get the label settings.
     if (isset($entity) && !empty($entity)) {
