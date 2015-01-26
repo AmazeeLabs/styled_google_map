@@ -2,8 +2,6 @@
 /**
  * @file
  * Contains all hooks and functions for the Styled Google Map module.
- *
- * @author Nicky Vandevoorde <nicky.vandevoorde@gmail.com>
  */
 
 define('STYLED_GOOGLE_MAP_DEFAULT_WIDTH', '450px');
@@ -18,13 +16,14 @@ define('STYLED_GOOGLE_MAP_DEFAULT_MAP_TYPE_CONTROL', TRUE);
 define('STYLED_GOOGLE_MAP_DEFAULT_PAN_CONTROL', TRUE);
 define('STYLED_GOOGLE_MAP_DEFAULT_ZOOM_CONTROL', TRUE);
 define('STYLED_GOOGLE_MAP_DEFAULT_STREET_VIEW_CONTROL', TRUE);
+define('STYLED_GOOGLE_MAP_DEFAULT_SCROLLWHEEL', TRUE);
 
 /**
  * Implements hook_theme().
  */
 function styled_google_map_theme() {
   $themes['styled_google_map'] = array(
-    'arguments' => array(
+    'variables' => array(
       'location' => NULL,
       'display' => NULL,
       'entity' => NULL,
@@ -66,6 +65,7 @@ function styled_google_map_field_formatter_info() {
         'pancontrol' => STYLED_GOOGLE_MAP_DEFAULT_PAN_CONTROL,
         'zoomcontrol' => STYLED_GOOGLE_MAP_DEFAULT_ZOOM_CONTROL,
         'streetviewcontrol' => STYLED_GOOGLE_MAP_DEFAULT_STREET_VIEW_CONTROL,
+        'scrollwheel' => STYLED_GOOGLE_MAP_DEFAULT_SCROLLWHEEL,
       ),
     ),
   );
@@ -81,11 +81,11 @@ function styled_google_map_field_formatter_view($entity_type, $entity, $field, $
 
   // Theme field element to a Styled Google Map with given theme variables.
   if ($display['type'] == 'styled_google_map_map_formatter') {
-    if (isset($items[0])) {
-      $elements[0]['#markup'] = theme(
+    foreach ($items as $item) {
+      $elements[] = theme(
         'styled_google_map',
         array(
-          'location' => $items[0],
+          'location' => $item,
           'display' => $display,
           'entity' => $entity,
           'entity_type' => $entity_type,
@@ -223,7 +223,7 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
     );
     $element['zoom']['default'] = array(
       '#type' => 'select',
-      '#options' => range(1, 19),
+      '#options' => range(1, 23),
       '#title' => t('Default zoom level'),
       '#default_value' => $settings['zoom']['default'],
       '#description' => t('Should be between the Min and Max zoom level.'),
@@ -231,7 +231,7 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
     );
     $element['zoom']['max'] = array(
       '#type' => 'select',
-      '#options' => range(1, 19),
+      '#options' => range(1, 23),
       '#title' => t('Max zoom level'),
       '#default_value' => $settings['zoom']['max'],
       '#description' => t('Should be greater then the Min zoom level.'),
@@ -239,7 +239,7 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
     );
     $element['zoom']['min'] = array(
       '#type' => 'select',
-      '#options' => range(1, 19),
+      '#options' => range(1, 23),
       '#title' => t('Min zoom level'),
       '#default_value' => $settings['zoom']['min'],
       '#description' => t('Should be smaller then the Max zoom level.'),
@@ -255,15 +255,20 @@ function styled_google_map_field_formatter_settings_form($field, $instance, $vie
       '#title' => t('Enable panning control'),
       '#default_value' => $settings['pancontrol'],
     );
+    $element['streetviewcontrol'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable street view control'),
+      '#default_value' => $settings['streetviewcontrol'],
+    );
     $element['zoomcontrol'] = array(
       '#type' => 'checkbox',
       '#title' => t('Enable zoom control'),
       '#default_value' => $settings['zoomcontrol'],
     );
-    $element['streetviewcontrol'] = array(
+    $element['scrollwheel'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Enable street view control'),
-      '#default_value' => $settings['streetviewcontrol'],
+      '#title' => t('Enable scrollwheel'),
+      '#default_value' => $settings['scrollwheel'],
     );
   }
 
@@ -286,23 +291,23 @@ function styled_google_map_field_formatter_settings_summary($field, $instance, $
       $summary .= t('<br />Map style: <b>Custom</b>');
     }
     if ($settings['style']['pin']) {
-      $summary .= t('<br />Pin style: <b>:pin</b>', array(':pin' => $settings['style']['pin']));
+      $summary .= t('<br />Pin style: <b>%pin</b>', array('%pin' => $settings['style']['pin']));
     }
     $summary .= t('<br />Map type: <b>:maptype</b>', array(':maptype' => $settings['style']['maptype']));
     if ($settings['style']['pin']) {
-      $summary .= t('<br />Pin location: <b>:pin</b>', array(':pin' => $settings['style']['pin']));
+      $summary .= t('<br />Pin location: <b>%pin</b>', array('%pin' => $settings['style']['pin']));
     }
     if ($settings['popup']['choice'] == 1) {
-      $summary .= t('<br />Popup shows field <b>:field</b>', array(':field' => $settings['popup']['text']));
+      $summary .= t('<br />Popup shows field <b>%field</b>', array('%field' => $settings['popup']['text']));
       $readable = array(FALSE => t('without'), TRUE => t('with'));
-      $summary .= t('<b>:label</b> label', array(':label' => $readable[$settings['popup']['label']]));
+      $summary .= t('<b>%label</b> label', array('%label' => $readable[$settings['popup']['label']]));
     }
     if ($settings['popup']['choice'] == 2) {
-      $summary .= t('<br />Popup shows view mode <b>:viewmode</b>', array(':viewmode' => $settings['popup']['view_mode']));
+      $summary .= t('<br />Popup shows view mode <b>%viewmode</b>', array('%viewmode' => $settings['popup']['view_mode']));
     }
-    $summary .= t('<br />Default zoom: <b>:zoom</b>', array(':zoom' => $settings['zoom']['default']));
-    $summary .= t('<br />Maximum zoom: <b>:maxzoom</b>', array(':maxzoom' => $settings['zoom']['max']));
-    $summary .= t('<br />Minimum zoom: <b>:minzoom</b>', array(':minzoom' => $settings['zoom']['min']));
+    $summary .= t('<br />Default zoom: <b>%zoom</b>', array('%zoom' => $settings['zoom']['default']));
+    $summary .= t('<br />Maximum zoom: <b>%maxzoom</b>', array('%maxzoom' => $settings['zoom']['max']));
+    $summary .= t('<br />Minimum zoom: <b>%minzoom</b>', array('%minzoom' => $settings['zoom']['min']));
   }
 
   return $summary;
@@ -333,6 +338,10 @@ function theme_styled_google_map(array $variables) {
     if (isset($settings['style']['pin']) && !empty($settings['style']['pin'])) {
       $settings['style']['pin'] = file_create_url($settings['style']['pin']);
     }
+    // Sanitize the output of the style settings.
+    foreach ($settings['style'] as $id => $setting) {
+      $settings['style'][$id] = filter_xss($setting);
+    }dsm($settings);
 
     // Get the label settings.
     if (isset($entity) && !empty($entity)) {
@@ -380,11 +389,11 @@ function theme_styled_google_map(array $variables) {
     drupal_add_js(array('id' . $gid => $map_settings), 'setting');
 
     // Output a div placeholder for the Styled Google Map.
-    $output['styled_google_map']['#markup'] = '<div style="width:' . $settings['width'] . ';height:' . $settings['height'] . ';" id="styled-google-map-' . $gid . '"></div>';
+    $output['styled_google_map']['#markup'] = '<div style="width:' . check_plain($settings['width']) . ';height:' . check_plain($settings['height']) . ';" id="styled-google-map-' . $gid . '"></div>';
 
     // Attache the Styled Google Map javascript file.
     $output['#attached']['js'][] = drupal_get_path('module', 'styled_google_map') . '/styled-google-map.js';
   }
 
-  return render($output);
+  return $output;
 }
