@@ -391,8 +391,13 @@ function theme_styled_google_map(array $variables) {
     // Output a div placeholder for the Styled Google Map.
     $output['styled_google_map']['#markup'] = '<div style="width:' . check_plain($settings['width']) . ';height:' . check_plain($settings['height']) . ';" id="styled-google-map-' . $gid . '"></div>';
 
-    // Attache the Styled Google Map javascript file.
+    // Attach the Styled Google Map javascript file.
     $output['#attached']['js'][] = drupal_get_path('module', 'styled_google_map') . '/styled-google-map.js';
+    // Attach a CSS fix for Google Maps, it will prevent the map controls from breaking.
+    $output['#attached']['css'][] = array(
+      'data' => ".gm-style img {max-width: none;}",
+      'type' => 'inline',
+    );
   }
 
   return $output;
