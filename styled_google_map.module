@@ -82,14 +82,12 @@ function styled_google_map_field_formatter_view($entity_type, $entity, $field, $
   // Theme field element to a Styled Google Map with given theme variables.
   if ($display['type'] == 'styled_google_map_map_formatter') {
     foreach ($items as $item) {
-      $elements[] = theme(
-        'styled_google_map',
-        array(
-          'location' => $item,
-          'display' => $display,
-          'entity' => $entity,
-          'entity_type' => $entity_type,
-        )
+      $elements[] = array(
+        '#location' => $item,
+        '#display' => $display,
+        '#entity' => $entity,
+        '#entity_type' => $entity_type,
+        '#theme' => 'styled_google_map',
       );
     }
   }
@@ -285,15 +283,15 @@ function styled_google_map_field_formatter_settings_summary($field, $instance, $
 
   // Set summary of all settings to be displayed in the entity view mode.
   if ($display['type'] == 'styled_google_map_map_formatter') {
-    $summary = t('Width: <b>:width</b><br />Height: <b>:height</b>',
-      array(':width' => $settings['width'], ':height' => $settings['height']));
+    $summary = t('Width: <b>%width</b><br />Height: <b>%height</b>',
+      array('%width' => $settings['width'], '%height' => $settings['height']));
     if ($settings['style']['style']) {
       $summary .= t('<br />Map style: <b>Custom</b>');
     }
     if ($settings['style']['pin']) {
       $summary .= t('<br />Pin style: <b>%pin</b>', array('%pin' => $settings['style']['pin']));
     }
-    $summary .= t('<br />Map type: <b>:maptype</b>', array(':maptype' => $settings['style']['maptype']));
+    $summary .= t('<br />Map type: <b>%maptype</b>', array('%maptype' => $settings['style']['maptype']));
     if ($settings['style']['pin']) {
       $summary .= t('<br />Pin location: <b>%pin</b>', array('%pin' => $settings['style']['pin']));
     }
@@ -393,12 +391,12 @@ function theme_styled_google_map(array $variables) {
 
     // Attach the Styled Google Map javascript file.
     $output['#attached']['js'][] = drupal_get_path('module', 'styled_google_map') . '/styled-google-map.js';
-    // Attach a CSS fix for Google Maps, it will prevent the map controls from breaking.
+    // Attach CSS fix, this will prevent the map controls from breaking.
     $output['#attached']['css'][] = array(
       'data' => ".gm-style img {max-width: none;}",
       'type' => 'inline',
     );
   }
 
-  return $output;
+  return render($output);
 }
