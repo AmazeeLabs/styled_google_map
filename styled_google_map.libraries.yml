@@ -1,0 +1,10 @@
+styled-google-map:
+  version: 1.0  
+  js:
+    js/styled-google-map.js: {}
+  css:
+    css/styled-google-map.css : {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings    

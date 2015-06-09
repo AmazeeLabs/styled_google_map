@@ -7,11 +7,12 @@
  */
 
 (function ($) {
+
   Drupal.behaviors.styled_google_map = {
     attach: function (context) {
-      var maps = Drupal.settings.styled_google_map;
+      var maps = drupalSettings.styled_google_map;
       for (i in maps) {
-        var current_map = Drupal.settings['id' + maps[i]];
+        var current_map = drupalSettings.maps['id' + maps[i]];
         var map_id = current_map.id;
         if ($('#' + map_id).length) {
           var map_location = current_map.location;
@@ -22,7 +23,7 @@
             'SATELLITE': google.maps.MapTypeId.SATELLITE,
             'HYBRID': google.maps.MapTypeId.HYBRID,
             'TERRAIN': google.maps.MapTypeId.TERRAIN
-          }
+          };
           var map_style = (map_settings.style.style != '' ? map_settings.style.style : '[]');
           var init_map = {
             zoom: parseInt(map_settings.zoom.default),
@@ -36,7 +37,7 @@
             streetViewControl: map_settings.streetviewcontrol,
             zoomControl: map_settings.zoomcontrol,
             scrollwheel: map_settings.scrollwheel,
-          }
+          };
           var map = new google.maps.Map(document.getElementById(map_id), init_map);
           var infowindow = new google.maps.InfoWindow({content: "holding..."});
           var marker = new google.maps.Marker({
@@ -44,8 +45,8 @@
             map: map,
             html: map_settings.popup.text,
             icon: map_settings.style.pin
-          });
-          if (map_settings.popup.text) {
+          }); 
+          if (typeof map_settings.popup.text === 'string') {
             google.maps.event.addListener(marker, 'click', (function(m){
                 return function() {
                     infowindow.setContent(this.html);
@@ -58,7 +59,7 @@
         }
       }
       // Prevents piling up generated map ids.
-      Drupal.settings.styled_google_map = [];
+      drupalSettings.styled_google_map = [];
     }
   };
 })(jQuery);
