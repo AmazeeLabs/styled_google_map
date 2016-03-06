@@ -5,19 +5,45 @@
  * Contains all hooks and functions for the Styled Google Map module.
  */
 
-define('STYLED_GOOGLE_MAP_DEFAULT_WIDTH', '450px');
-define('STYLED_GOOGLE_MAP_DEFAULT_HEIGHT', '300px');
-define('STYLED_GOOGLE_MAP_DEFAULT_ZOOM', 15);
-define('STYLED_GOOGLE_MAP_DEFAULT_MAX_ZOOM', 17);
-define('STYLED_GOOGLE_MAP_DEFAULT_MIN_ZOOM', 5);
-define('STYLED_GOOGLE_MAP_DEFAULT_PIN', 'module://styled_google_map/pin.png');
-define('STYLED_GOOGLE_MAP_DEFAULT_MAP_TYPE', 'google.maps.MapTypeId.ROADMAP');
-define('STYLED_GOOGLE_MAP_DEFAULT_LABEL', FALSE);
-define('STYLED_GOOGLE_MAP_DEFAULT_MAP_TYPE_CONTROL', TRUE);
-define('STYLED_GOOGLE_MAP_DEFAULT_PAN_CONTROL', TRUE);
-define('STYLED_GOOGLE_MAP_DEFAULT_ZOOM_CONTROL', TRUE);
-define('STYLED_GOOGLE_MAP_DEFAULT_STREET_VIEW_CONTROL', TRUE);
-define('STYLED_GOOGLE_MAP_DEFAULT_SCROLLWHEEL', TRUE);
+ define('STYLED_GOOGLE_MAP_DEFAULT_WIDTH', '450px');
+ define('STYLED_GOOGLE_MAP_DEFAULT_HEIGHT', '400px');
+ define('STYLED_GOOGLE_MAP_DEFAULT_STYLE', '[]');
+ define('STYLED_GOOGLE_MAP_DEFAULT_ZOOM', 15);
+ define('STYLED_GOOGLE_MAP_DEFAULT_MAX_ZOOM', 17);
+ define('STYLED_GOOGLE_MAP_DEFAULT_MIN_ZOOM', 5);
+ define('STYLED_GOOGLE_MAP_DEFAULT_PIN', 'module://styled_google_map/pin.png');
+ define('STYLED_GOOGLE_MAP_DEFAULT_MAP_TYPE', 'ROADMAP');
+ define('STYLED_GOOGLE_MAP_DEFAULT_LABEL', FALSE);
+ define('STYLED_GOOGLE_MAP_DEFAULT_MAP_TYPE_CONTROL', TRUE);
+ define('STYLED_GOOGLE_MAP_DEFAULT_SCALE_CONTROL', TRUE);
+ define('STYLED_GOOGLE_MAP_DEFAULT_ROTATE_CONTROL', TRUE);
+ define('STYLED_GOOGLE_MAP_DEFAULT_DRAGGABLE', TRUE);
+ define('STYLED_GOOGLE_MAP_DEFAULT_MOBILE_DRAGGABLE', TRUE);
+ define('STYLED_GOOGLE_MAP_DEFAULT_ZOOM_CONTROL', TRUE);
+ define('STYLED_GOOGLE_MAP_DEFAULT_STREET_VIEW_CONTROL', TRUE);
+ define('STYLED_GOOGLE_MAP_DEFAULT_SCROLLWHEEL', TRUE);
+ define('STYLED_GOOGLE_MAP_DEFAULT_SHADOW_STYLE', 0);
+ define('STYLED_GOOGLE_MAP_DEFAULT_PADDING', 13);
+ define('STYLED_GOOGLE_MAP_DEFAULT_BORDER_RADIUS', 7);
+ define('STYLED_GOOGLE_MAP_DEFAULT_BORDER_WIDTH', 1);
+ define('STYLED_GOOGLE_MAP_DEFAULT_BORDER_COLOR', '#cccccc');
+ define('STYLED_GOOGLE_MAP_DEFAULT_BACKGROUND_COLOR', '#ffffff');
+ define('STYLED_GOOGLE_MAP_DEFAULT_MIN_WIDTH', 'auto');
+ define('STYLED_GOOGLE_MAP_DEFAULT_MAX_WIDTH', 'auto');
+ define('STYLED_GOOGLE_MAP_DEFAULT_MIN_HEIGHT', 'auto');
+ define('STYLED_GOOGLE_MAP_DEFAULT_MAX_HEIGHT', 'auto');
+ define('STYLED_GOOGLE_MAP_DEFAULT_AUTO_CLOSE', true);
+ define('STYLED_GOOGLE_MAP_DEFAULT_ARROW_SIZE', 10);
+ define('STYLED_GOOGLE_MAP_DEFAULT_ARROW_POSITION', 50);
+ define('STYLED_GOOGLE_MAP_DEFAULT_ARROW_STYLE', 0);
+ define('STYLED_GOOGLE_MAP_DEFAULT_DISABLE_AUTO_PAN', 0);
+ define('STYLED_GOOGLE_MAP_DEFAULT_HIDE_CLOSE_BUTTON', 0);
+ define('STYLED_GOOGLE_MAP_DEFAULT_DISABLE_ANIMATION', 1);
+ define('STYLED_GOOGLE_MAP_DEFAULT_BACKGROUND_CLASS', 'sgmpopup-content');
+ define('STYLED_GOOGLE_MAP_DEFAULT_CONTENT_CONTAINER_CLASS', 'sgmpopup-content-wrapper');
+ define('STYLED_GOOGLE_MAP_DEFAULT_ARROW_CLASS', 'sgmpopup-arrow');
+ define('STYLED_GOOGLE_MAP_DEFAULT_ARROW_OUTER_CLASS', 'sgmpopup-arrow-outer');
+ define('STYLED_GOOGLE_MAP_DEFAULT_ARROW_INNER_CLASS', 'sgmpopup-arrow-inner');
 
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
 
@@ -42,9 +68,16 @@ function styled_google_map_page_attachments(array &$page) {
   $page['#attached']['html_head'][] = array(
     array(
       '#tag' => 'script',
-      '#attributes' => array('src' => 'http://maps.google.com/maps/api/js?sensor=true'),
+      '#attributes' => array('src' => '//maps.google.com/maps/api/js'),
     ),
     'google_maps'
+  );
+  $page['#attached']['html_head'][] = array(
+    array(
+      '#tag' => 'script',
+      '#attributes' => array('src' => '//google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble.js'),
+    ),
+    'google_maps_infobubble'
   );
 }
 
@@ -59,11 +92,12 @@ function styled_google_map_page_attachments(array &$page) {
  * @ingroup themeable
  */
 function theme_styled_google_map(array $variables) {
-  $language = Drupal::languageManager()->getLanguage();
+  $language = Drupal::languageManager()->getCurrentLanguage();
   $location = $variables['location']->getValue();
   $field_list = $variables['location']->getParent();
   $entity = $field_list->getEntity();
   $settings = $variables['settings'];
+
   $output = array();
   // TODO: Split this function so logic is out of the theming function.
   if (!empty($location) && $location['geohash']) {
@@ -73,7 +107,9 @@ function theme_styled_google_map(array $variables) {
     }
     // Sanitize the output of the style settings.
     foreach ($settings['style'] as $id => $setting) {
-      $settings['style'][$id] = \Drupal\Component\Utility\Xss::filter($setting);
+      if ($id != 'style') {
+        $location[$id] = \Drupal\Component\Utility\Xss::filter($settings['style'][$id]);
+      }
     }
     // Get the label settings.
     if (isset($entity) && !empty($entity)) {
@@ -81,7 +117,7 @@ function theme_styled_google_map(array $variables) {
         // Create popup from label.
         case 1:
           $settings['popup']['label'] = $settings['popup']['label'] ? 'inline' : 'hidden';
-          $popup_field = $entity->{$settings['popup']['text']}->view(array('label' => $settings['popup']['label']), $language->language);
+          $popup_field = $entity->{$settings['popup']['text']}->view(array('label' => $settings['popup']['label']), $language->getId());
           break;
 
         // Create popup from view mode.
@@ -101,33 +137,37 @@ function theme_styled_google_map(array $variables) {
         // Default to empty.
         default:
           $popup_field = array();
-      }      
-      $settings['popup']['text'] = render($popup_field);
+      }
+      $location['popup'] = render($popup_field);
     }
     else {
       // Not an entity object.
-      $settings['popup']['text'] = array();
+      $location['popup'] = array();
     }
-
+    if ($settings['map_center']['center_coordinates']) {
+      $map_center = $entity->getTranslation($language->getId())->get($settings['map_center']['center_coordinates'])->getValue();
+      if ($map_center && isset($map_center[0]['lat']) && isset($map_center[0]['lon'])) {
+        $settings['map_center']['center_coordinates'] = $map_center[0];
+      } else {
+        $settings['map_center']['center_coordinates'] = FALSE;
+      }
+    }
     $gid = uniqid();
-    // Include the Google Maps API.    
+    // Include the Google Maps API.
     // Include the map location settings.
 
-    $map_settings['location'] = array('lat' => $location['lat'], 'lon' => $location['lon']);
+    $map_settings['locations'] = array($location);
     // Include the custom map settings.
     $map_settings['settings'] = $settings;
     // Include the unique div id.
     $map_settings['id'] = 'styled-google-map-' . $gid;
     $output['#attached']['drupalSettings']['styled_google_map'] = array($gid => $gid);
     $output['#attached']['drupalSettings']['maps'] = array('id' . $gid => $map_settings);
-    
     // Output a div placeholder for the Styled Google Map.
-    $output['styled_google_map']['#markup'] = '<div class="styled_map" style="width:' . \Drupal\Component\Utility\String::checkPlain($settings['width']) . ';height:' . \Drupal\Component\Utility\String::checkPlain($settings['height']) . ';" id="styled-google-map-' . $gid . '"></div>';
-
+    $output['styled_google_map']['#markup'] = '<div class="styled_map" id="styled-google-map-' . $gid . '"></div>';
     // Attach the Styled Google Map javascript file.
     $output['#attached']['library'][] = 'styled_google_map/styled-google-map';
   }
 
   return render($output);
 }
-
