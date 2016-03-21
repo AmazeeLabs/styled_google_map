@@ -156,6 +156,9 @@ class StyledGoogleMapDefaultFormatter extends FormatterBase {
       $fields = $form['#fields'];
       foreach ($fields as $field) {
         $config = FieldConfig::loadByName($form['#entity_type'], $form['#bundle'], $field);
+		if (!$config) {
+		  continue;
+		}
         $type = $config->get('field_type');
         $name = $config->get('field_name');
         $field_options[$field] = $config->getLabel();
