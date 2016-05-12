@@ -75,7 +75,7 @@ function styled_google_map_page_attachments(array &$page) {
   $page['#attached']['html_head'][] = array(
     array(
       '#tag' => 'script',
-      '#attributes' => array('src' => '//google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble.js'),
+      '#attributes' => array('src' => '//cdn.rawgit.com/googlemaps/js-info-bubble/gh-pages/src/infobubble.js'),
     ),
     'google_maps_infobubble'
   );
