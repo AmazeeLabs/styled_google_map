@@ -138,6 +138,19 @@
         } else {
           map.setCenter(bounds.getCenter());
         }
+        // This is needed to set the zoom after fitbounds,
+        google.maps.event.addListener(map, 'zoom_changed', function() {
+          zoomChangeBoundsListener =
+              google.maps.event.addListener(map, 'bounds_changed', function(event) {
+              if (this.getZoom() > parseInt(map_settings.zoom.default) && this.initialZoom == true) {
+                // Change max/min zoom here
+                this.setZoom(parseInt(map_settings.zoom.default));
+                this.initialZoom = false;
+              }
+              google.maps.event.removeListener(zoomChangeBoundsListener);
+            });
+        });
+        map.initialZoom = true;
         map.fitBounds(bounds);
       }
       // Prevents piling up generated map ids.
