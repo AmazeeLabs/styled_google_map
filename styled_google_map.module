@@ -60,27 +60,6 @@ function styled_google_map_theme() {
   return $themes;
 }
 
-
-/**
- * Implements hook_page_attachments() to insert JavaScript to the appropriate scope/region of the page.
- */
-function styled_google_map_page_attachments(array &$page) {
-  $page['#attached']['html_head'][] = array(
-    array(
-      '#tag' => 'script',
-      '#attributes' => array('src' => '//maps.google.com/maps/api/js'),
-    ),
-    'google_maps'
-  );
-  $page['#attached']['html_head'][] = array(
-    array(
-      '#tag' => 'script',
-      '#attributes' => array('src' => '//cdn.rawgit.com/googlemaps/js-info-bubble/gh-pages/src/infobubble.js'),
-    ),
-    'google_maps_infobubble'
-  );
-}
-
 /**
  * Returns HTML for the styled google map.
  *
@@ -90,6 +69,7 @@ function styled_google_map_page_attachments(array &$page) {
  *   - display: Display array including formatter settings.
  *
  * @ingroup themeable
+ * @return mixed|null
  */
 function theme_styled_google_map(array $variables) {
   $language = Drupal::languageManager()->getCurrentLanguage();
