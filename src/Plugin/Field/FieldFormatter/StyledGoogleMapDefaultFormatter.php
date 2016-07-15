@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\styled_google_map\Plugin\Field\FieldFormatter\StyledGoogleMapDefaultFormatter.
- */
-
 namespace Drupal\styled_google_map\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Url;

@@ -1,10 +1,5 @@
 <?php
 
-
-/**
- * @file
- * Contains \Drupal\styled_google_map\Form\styledGoogleMapSettingsForm
- */
 namespace Drupal\styled_google_map\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
