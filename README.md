@@ -21,6 +21,13 @@ CONFIGURATION
   - In the Display View, choose Styled Google Map as format.
   - Give in your desired Google Map settings.
 
+  - For API key, see: https://developers.google.com/maps/documentation/javascript/get-api-key
+    for further information.
+  - For client id, see: https://developers.google.com/maps/documentation/javascript/get-api-key#client-id
+ * Configure GMaps API key from 'admin/config/content/styled_google_map'
+  - See: https://developers.google.com/maps/documentation/javascript/get-api-key
+ 	for further information.
+
 Suggestions for additional settings are most welcome.
 
 CUSTOMIZATION
