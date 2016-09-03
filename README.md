@@ -30,6 +30,16 @@ CONFIGURATION
 
 Suggestions for additional settings are most welcome.
 
+VIEWS INTEGRATION
+-------------
+ * Styled Google Map provides views style plugin that gives opportunity to create the map with multiple locations.
+  To use this feature you need to create a view as usual and in style options select "Styled Google Map". The main settings
+  are data source - GeoField, Pin source - image field. Optionally you can add popup window on top location that 
+  is triggered with mouse click.
+ * All other optional settings duplicate the settings of the field formatter. 
+ * There is ability to add several blocks with the maps on one page, just add the blocks to the page using standard block
+  layout configuration page. 
+  
 CUSTOMIZATION
 -------------
  * You may override the default theming function THEMENAME_styled_google_map().
