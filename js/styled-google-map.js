@@ -142,10 +142,11 @@
         google.maps.event.addListener(map, 'zoom_changed', function() {
           zoomChangeBoundsListener =
               google.maps.event.addListener(map, 'bounds_changed', function(event) {
-              if (this.getZoom() > parseInt(map_settings.zoom.default) && this.initialZoom == true) {
+              var current_zoom = this.getZoom();
+              if (current_zoom > parseInt(map_settings.zoom.default) && map.initialZoom == true) {
                 // Change max/min zoom here
-                this.setZoom(parseInt(map_settings.zoom.default));
-                this.initialZoom = false;
+                this.setZoom(parseInt(map_settings.zoom.default) - 1);
+                map.initialZoom = false;
               }
               google.maps.event.removeListener(zoomChangeBoundsListener);
             });

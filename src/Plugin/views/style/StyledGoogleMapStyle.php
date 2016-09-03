@@ -152,31 +152,31 @@ class StyledGoogleMapStyle extends StylePluginBase {
       '#title' => $this->t('Height'),
       '#size' => '30',
       '#description' => $this->t('This field determines the height of the styled Google map'),
-      '#default_value' => $this->options['styled_google_map_view_height'],
+      '#default_value' => $this->options['main']['styled_google_map_view_height'],
     );
     $form['main']['styled_google_map_view_width'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Width'),
       '#size' => '30',
       '#description' => $this->t('This field determines how width the styled Google map'),
-      '#default_value' => $this->options['styled_google_map_view_width'],
+      '#default_value' => $this->options['main']['styled_google_map_view_width'],
     );
     $form['main']['styled_google_map_view_style'] = array(
       '#type' => 'textarea',
       '#title' => $this->t('Style'),
       '#description' => $this->t('The style of the map'),
-      '#default_value' => $this->options['styled_google_map_view_style'],
+      '#default_value' => $this->options['main']['styled_google_map_view_style'],
     );
     $form['main']['styled_google_map_view_cluster_pin'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Cluster pin image'),
       '#description' => $this->t('Leave empty for '),
-      '#default_value' => $this->options['styled_google_map_view_cluster_pin'],
+      '#default_value' => $this->options['main']['styled_google_map_view_cluster_pin'],
     );
     $form['main']['styled_google_map_view_active_pin'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Active pin image'),
-      '#default_value' => $this->options['styled_google_map_view_active_pin'],
+      '#default_value' => $this->options['main']['styled_google_map_view_active_pin'],
     );
     $form['main']['styled_google_map_view_maptype'] = array(
       '#type' => 'select',
@@ -187,74 +187,74 @@ class StyledGoogleMapStyle extends StylePluginBase {
         'TERRAIN' => $this->t('TERRAIN'),
       ),
       '#title' => $this->t('Map type'),
-      '#default_value' => $this->options['styled_google_map_view_maptype'],
+      '#default_value' => $this->options['main']['styled_google_map_view_maptype'],
       '#required' => TRUE,
     );
     $form['main']['styled_google_map_view_zoom_default'] = array(
       '#type' => 'select',
-      '#options' => range(1, 23),
+      '#options' => range(1, 35),
       '#title' => $this->t('Default zoom level'),
-      '#default_value' => $this->options['styled_google_map_view_zoom_default'],
+      '#default_value' => $this->options['main']['styled_google_map_view_zoom_default'],
       '#description' => $this->t('Should be between the Min and Max zoom level.
         This will generally not working as fitbounds will try to fit all pins on the map.'),
       '#required' => TRUE,
     );
     $form['main']['styled_google_map_view_zoom_max'] = array(
       '#type' => 'select',
-      '#options' => range(1, 23),
+      '#options' => range(1, 35),
       '#title' => $this->t('Max zoom level'),
-      '#default_value' => $this->options['styled_google_map_view_zoom_max'],
+      '#default_value' => $this->options['main']['styled_google_map_view_zoom_max'],
       '#description' => $this->t('Should be greater then the Min zoom level.'),
       '#required' => TRUE,
     );
     $form['main']['styled_google_map_view_zoom_min'] = array(
       '#type' => 'select',
-      '#options' => range(1, 23),
+      '#options' => range(1, 35),
       '#title' => $this->t('Min zoom level'),
-      '#default_value' => $this->options['styled_google_map_view_zoom_min'],
+      '#default_value' => $this->options['main']['styled_google_map_view_zoom_min'],
       '#description' => $this->t('Should be smaller then the Max zoom level.'),
       '#required' => TRUE,
     );
     $form['main']['styled_google_map_view_maptypecontrol'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Enable Map Type control'),
-      '#default_value' => $this->options['styled_google_map_view_maptypecontrol'],
+      '#default_value' => $this->options['main']['styled_google_map_view_maptypecontrol'],
     );
     $form['main']['styled_google_map_view_scalecontrol'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Enable scale control'),
-      '#default_value' => $this->options['styled_google_map_view_scalecontrol'],
+      '#default_value' => $this->options['main']['styled_google_map_view_scalecontrol'],
     );
     $form['main']['styled_google_map_view_rotatecontrol'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Enable rotate control'),
-      '#default_value' => $this->options['styled_google_map_view_rotatecontrol'],
+      '#default_value' => $this->options['main']['styled_google_map_view_rotatecontrol'],
     );
     $form['main']['styled_google_map_view_draggable'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Enable dragging'),
-      '#default_value' => $this->options['styled_google_map_view_draggable'],
+      '#default_value' => $this->options['main']['styled_google_map_view_draggable'],
     );
     $form['main']['styled_google_map_view_mobile_draggable'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Enable mobile dragging'),
       '#description' => $this->t('Sometimes when the map covers big part of touch device screen draggable feature can cause inability to scroll the page'),
-      '#default_value' => $this->options['styled_google_map_view_mobile_draggable'],
+      '#default_value' => $this->options['main']['styled_google_map_view_mobile_draggable'],
     );
     $form['main']['styled_google_map_view_streetviewcontrol'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Enable street view control'),
-      '#default_value' => $this->options['styled_google_map_view_streetviewcontrol'],
+      '#default_value' => $this->options['main']['styled_google_map_view_streetviewcontrol'],
     );
     $form['main']['styled_google_map_view_zoomcontrol'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Enable zoom control'),
-      '#default_value' => $this->options['styled_google_map_view_zoomcontrol'],
+      '#default_value' => $this->options['main']['styled_google_map_view_zoomcontrol'],
     );
     $form['main']['styled_google_map_view_scrollwheel'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Enable scrollwheel'),
-      '#default_value' => $this->options['styled_google_map_view_scrollwheel'],
+      '#default_value' => $this->options['main']['styled_google_map_view_scrollwheel'],
     );
     $form['popup'] = array(
       '#type' => 'details',
@@ -266,101 +266,101 @@ class StyledGoogleMapStyle extends StylePluginBase {
       '#title' => $this->t('Shadow style'),
       '#options' => array(0, 1, 2),
       '#description' => $this->t('1: shadow behind, 2: shadow below, 0: no shadow'),
-      '#default_value' => $this->options['styled_google_map_view_shadow_style'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_shadow_style'],
     );
     $form['popup']['styled_google_map_view_padding'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Padding'),
       '#field_suffix' => 'px',
-      '#default_value' => $this->options['styled_google_map_view_padding'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_padding'],
     );
     $form['popup']['styled_google_map_view_border_radius'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Border radius'),
       '#field_suffix' => 'px',
-      '#default_value' => $this->options['styled_google_map_view_border_radius'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_border_radius'],
     );
     $form['popup']['styled_google_map_view_border_width'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Border width'),
       '#field_suffix' => 'px',
-      '#default_value' => $this->options['styled_google_map_view_border_width'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_border_width'],
     );
     $form['popup']['styled_google_map_view_border_color'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Border color'),
       '#field_suffix' => '#hex',
-      '#default_value' => $this->options['styled_google_map_view_border_color'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_border_color'],
     );
     $form['popup']['styled_google_map_view_background_color'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Background color'),
       '#field_suffix' => '#hex',
-      '#default_value' => $this->options['styled_google_map_view_background_color'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_background_color'],
     );
     $form['popup']['styled_google_map_view_min_width'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Min width'),
       '#field_suffix' => 'px (or auto)',
-      '#default_value' => $this->options['styled_google_map_view_min_width'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_min_width'],
     );
     $form['popup']['styled_google_map_view_max_width'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Max width'),
       '#field_suffix' => 'px (or auto)',
-      '#default_value' => $this->options['styled_google_map_view_max_width'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_max_width'],
     );
     $form['popup']['styled_google_map_view_min_height'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Min height'),
       '#field_suffix' => 'px (or auto)',
-      '#default_value' => $this->options['styled_google_map_view_min_height'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_min_height'],
     );
     $form['popup']['styled_google_map_view_max_height'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Max height'),
       '#field_suffix' => 'px (or auto)',
-      '#default_value' => $this->options['styled_google_map_view_max_height'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_max_height'],
     );
     $form['popup']['styled_google_map_view_arrow_style'] = array(
       '#type' => 'select',
       '#title' => $this->t('Arrow style'),
       '#options' => array(0, 1, 2),
       '#description' => $this->t('1: left side visible, 2: right side visible, 0: both sides visible'),
-      '#default_value' => $this->options['styled_google_map_view_arrow_style'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_arrow_style'],
     );
     $form['popup']['styled_google_map_view_arrow_size'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Arrow size'),
       '#field_suffix' => 'px',
-      '#default_value' => $this->options['styled_google_map_view_arrow_size'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_arrow_size'],
     );
     $form['popup']['styled_google_map_view_arrow_position'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Arrow position'),
       '#field_suffix' => 'px',
-      '#default_value' => $this->options['styled_google_map_view_arrow_position'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_arrow_position'],
     );
     $form['popup']['styled_google_map_view_disable_auto_pan'] = array(
       '#type' => 'select',
       '#title' => $this->t('Auto pan'),
       '#options' => array(true => $this->t('Yes'), false => $this->t('No')),
       '#description' => $this->t('Automatically center the pin on click'),
-      '#default_value' => $this->options['styled_google_map_view_disable_auto_pan'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_disable_auto_pan'],
     );
     $form['popup']['styled_google_map_view_hide_close_button'] = array(
       '#type' => 'select',
       '#title' => $this->t('Hide close button'),
       '#options' => array(true => $this->t('Yes'), false => $this->t('No')),
       '#description' => $this->t('Hide the popup close button'),
-      '#default_value' => $this->options['styled_google_map_view_hide_close_button'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_hide_close_button'],
     );
     $form['popup']['styled_google_map_view_disable_animation'] = array(
       '#type' => 'select',
       '#title' => $this->t('Disable animation'),
       '#options' => array(true => $this->t('Yes'), false => $this->t('No')),
       '#description' => $this->t('Disables the popup animation'),
-      '#default_value' => $this->options['styled_google_map_view_disable_animation'],
+      '#default_value' => $this->options['popup']['styled_google_map_view_disable_animation'],
     );
     $form['popup_classes'] = array(
       '#type' => 'details',
@@ -370,27 +370,27 @@ class StyledGoogleMapStyle extends StylePluginBase {
     $form['popup_classes']['styled_google_map_view_content_container_class'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Wrapper class'),
-      '#default_value' => $this->options['styled_google_map_view_content_container_class'],
+      '#default_value' => $this->options['popup_classes']['styled_google_map_view_content_container_class'],
     );
     $form['popup_classes']['styled_google_map_view_background_class'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Background class'),
-      '#default_value' => $this->options['styled_google_map_view_background_class'],
+      '#default_value' => $this->options['popup_classes']['styled_google_map_view_background_class'],
     );
     $form['popup_classes']['styled_google_map_view_arrow_class'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Arrow class'),
-      '#default_value' => $this->options['styled_google_map_view_arrow_class'],
+      '#default_value' => $this->options['popup_classes']['styled_google_map_view_arrow_class'],
     );
     $form['popup_classes']['styled_google_map_view_arrow_outer_class'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Arrow outer class'),
-      '#default_value' => $this->options['styled_google_map_view_arrow_outer_class'],
+      '#default_value' => $this->options['popup_classes']['styled_google_map_view_arrow_outer_class'],
     );
     $form['popup_classes']['styled_google_map_view_arrow_inner_class'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Arrow inner class'),
-      '#default_value' => $this->options['styled_google_map_view_arrow_inner_class'],
+      '#default_value' => $this->options['popup_classes']['styled_google_map_view_arrow_inner_class'],
     );
   }
   /**
@@ -399,6 +399,15 @@ class StyledGoogleMapStyle extends StylePluginBase {
   public function render($results = FALSE) {
     // We check if the views result are empty, or if the settings of this area
     // force showing this area even if the view is empty.
+    if ($this->view->preview) {
+        $output['preview'] = array(
+            '#markup' => '<p>'.$this->t('This is a preview of styled google map plugin. No map is displayed.').'</p>',
+        );
+        $output['maps'] = array(
+            '#markup' => '<p>'.$this->t('This map has @num points', array('@num' => count($results))).'</p>',
+        );
+        return $output;
+    }
     if (!empty($results)) {
         // Get all geofield locations.
         $locations = array();
@@ -420,13 +429,13 @@ class StyledGoogleMapStyle extends StylePluginBase {
                             'pin' => $image->url(),
                         );
                         // Add the active pin image.
-                        if (!$this->options['styled_google_map_view_active_pin']) {
+                        if (!$this->options['main']['styled_google_map_view_active_pin']) {
                             $location = $location + array(
                                 'active_pin' => $image->url(),
                             );
                         } else {
                             $location = $location + array(
-                                'active_pin' => file_create_url($this->options['styled_google_map_view_active_pin'])
+                                'active_pin' => file_create_url($this->options['main']['styled_google_map_view_active_pin'])
                             );
                         }
                     }
@@ -434,8 +443,9 @@ class StyledGoogleMapStyle extends StylePluginBase {
                 // Add pin popup html.
                 if (isset($this->options['popup_source']) && !empty($this->options['popup_source'])) {
                     if (!$row->_entity->get($this->options['popup_source'])->isEmpty()) {
+                        $popup = $row->_entity->{$this->options['popup_source']}->view();
                         $location = $location + array(
-                            'popup' => render($row->_entity->{$this->options['popup_source']}->view()),
+                            'popup' => render($popup),
                         );
                     }
                 }
@@ -465,63 +475,63 @@ class StyledGoogleMapStyle extends StylePluginBase {
         }
         //TODO: sanitize all options.
         $map_settings = array(
-            'id' => 'styled-google-map',
+            'id' => 'map_'.$this->view->dom_id,
             'locations' => $locations,
             'settings' => array(
-                'height' => $this->options['styled_google_map_view_height'],
-                'width' => $this->options['styled_google_map_view_width'],
-                'maptypecontrol' => $this->options['styled_google_map_view_maptypecontrol'],
-                'scalecontrol' => $this->options['styled_google_map_view_scalecontrol'],
-                'rotatecontrol' => $this->options['styled_google_map_view_rotatecontrol'],
-                'draggable' => $this->options['styled_google_map_view_draggable'],
-                'mobile_draggable' => $this->options['styled_google_map_view_mobile_draggable'],
-                'scrollwheel' => $this->options['styled_google_map_view_scrollwheel'],
-                'streetviewcontrol' => $this->options['styled_google_map_view_streetviewcontrol'],
+                'height' => $this->options['main']['styled_google_map_view_height'],
+                'width' => $this->options['main']['styled_google_map_view_width'],
+                'maptypecontrol' => $this->options['main']['styled_google_map_view_maptypecontrol'],
+                'scalecontrol' => $this->options['main']['styled_google_map_view_scalecontrol'],
+                'rotatecontrol' => $this->options['main']['styled_google_map_view_rotatecontrol'],
+                'draggable' => $this->options['main']['styled_google_map_view_draggable'],
+                'mobile_draggable' => $this->options['main']['styled_google_map_view_mobile_draggable'],
+                'scrollwheel' => $this->options['main']['styled_google_map_view_scrollwheel'],
+                'streetviewcontrol' => $this->options['main']['styled_google_map_view_streetviewcontrol'],
                 'style' => array(
-                    'maptype' => $this->options['styled_google_map_view_maptype'],
-                    'style' => $this->options['styled_google_map_view_style'],
+                    'maptype' => $this->options['main']['styled_google_map_view_maptype'],
+                    'style' => $this->options['main']['styled_google_map_view_style'],
                     'active_pin' => $active_pin_image,
                     'cluster_pin' => $cluster_pin_image,
                 ),
                 'zoom' => array(
-                    'default' => $this->options['styled_google_map_view_zoom_default'],
-                    'max' => $this->options['styled_google_map_view_zoom_max'],
-                    'min' => $this->options['styled_google_map_view_zoom_min'],
+                    'default' => $this->options['main']['styled_google_map_view_zoom_default'],
+                    'max' => $this->options['main']['styled_google_map_view_zoom_max'],
+                    'min' => $this->options['main']['styled_google_map_view_zoom_min'],
                 ),
-                'zoomcontrol' => $this->options['styled_google_map_view_zoomcontrol'],
+                'zoomcontrol' => $this->options['main']['styled_google_map_view_zoomcontrol'],
                 'popup' => array(
-                    'disable_animation' => $this->options['styled_google_map_view_disable_animation'] ? true : false,
-                    'disable_autopan' => $this->options['styled_google_map_view_disable_auto_pan'] ? true : false,
-                    'hide_close_button' => $this->options['styled_google_map_view_hide_close_button'] ? true : false,
-                    'shadow_style' => $this->options['styled_google_map_view_shadow_style'],
-                    'padding' => $this->options['styled_google_map_view_padding'],
-                    'border_radius' => $this->options['styled_google_map_view_border_radius'],
-                    'border_width' => $this->options['styled_google_map_view_border_width'],
-                    'border_color' => $this->options['styled_google_map_view_border_color'],
-                    'background_color' => $this->options['styled_google_map_view_background_color'],
-                    'min_width' => $this->options['styled_google_map_view_min_width'],
-                    'max_width' => $this->options['styled_google_map_view_max_width'],
-                    'min_height' => $this->options['styled_google_map_view_min_height'],
-                    'max_height' => $this->options['styled_google_map_view_max_height'],
-                    'arrow_style' => $this->options['styled_google_map_view_arrow_style'],
-                    'arrow_size' => $this->options['styled_google_map_view_arrow_size'],
-                    'arrow_position' => $this->options['styled_google_map_view_arrow_position'],
+                    'disable_animation' => $this->options['popup']['styled_google_map_view_disable_animation'] ? true : false,
+                    'disable_autopan' => $this->options['popup']['styled_google_map_view_disable_auto_pan'] ? true : false,
+                    'hide_close_button' => $this->options['popup']['styled_google_map_view_hide_close_button'] ? true : false,
+                    'shadow_style' => $this->options['popup']['styled_google_map_view_shadow_style'],
+                    'padding' => $this->options['popup']['styled_google_map_view_padding'],
+                    'border_radius' => $this->options['popup']['styled_google_map_view_border_radius'],
+                    'border_width' => $this->options['popup']['styled_google_map_view_border_width'],
+                    'border_color' => $this->options['popup']['styled_google_map_view_border_color'],
+                    'background_color' => $this->options['popup']['styled_google_map_view_background_color'],
+                    'min_width' => $this->options['popup']['styled_google_map_view_min_width'],
+                    'max_width' => $this->options['popup']['styled_google_map_view_max_width'],
+                    'min_height' => $this->options['popup']['styled_google_map_view_min_height'],
+                    'max_height' => $this->options['popup']['styled_google_map_view_max_height'],
+                    'arrow_style' => $this->options['popup']['styled_google_map_view_arrow_style'],
+                    'arrow_size' => $this->options['popup']['styled_google_map_view_arrow_size'],
+                    'arrow_position' => $this->options['popup']['styled_google_map_view_arrow_position'],
                     'classes' => array(
-                        'container' => $this->options['styled_google_map_view_content_container_class'],
-                        'background' => $this->options['styled_google_map_view_background_class'],
-                        'arrow' => $this->options['styled_google_map_view_arrow_class'],
-                        'arrow_outer' => $this->options['styled_google_map_view_arrow_outer_class'],
-                        'arrow_inner' => $this->options['styled_google_map_view_arrow_inner_class'],
+                        'container' => $this->options['popup_classes']['styled_google_map_view_content_container_class'],
+                        'background' => $this->options['popup_classes']['styled_google_map_view_background_class'],
+                        'arrow' => $this->options['popup_classes']['styled_google_map_view_arrow_class'],
+                        'arrow_outer' => $this->options['popup_classes']['styled_google_map_view_arrow_outer_class'],
+                        'arrow_inner' => $this->options['popup_classes']['styled_google_map_view_arrow_inner_class'],
                     ),
                 ),
             ),
         );
     }  
     $output = array();
-    $output['#attached']['drupalSettings']['styled_google_map'] = array('styled-google-map');
-    $output['#attached']['drupalSettings']['maps'] = array('idstyled-google-map' => $map_settings);
+    $output['#attached']['drupalSettings']['styled_google_map'] = array('map_'.$this->view->dom_id => 'map_'.$this->view->dom_id);
+    $output['#attached']['drupalSettings']['maps'] = array('idmap_'.$this->view->dom_id => $map_settings);
     // Output a div placeholder for the Styled Google Map.
-    $output['styled_google_map']['#markup'] = '<div class="styled_map" id="styled-google-map"></div>';
+    $output['styled_google_map']['#markup'] = '<div class="styled_map" id="map_'.$this->view->dom_id.'"></div>';
     // Attach the Styled Google Map javascript file.
     $output['#attached']['library'][] = 'styled_google_map/styled-google-map';
     return $output;
