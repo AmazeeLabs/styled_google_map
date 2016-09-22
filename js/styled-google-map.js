@@ -101,12 +101,16 @@
               minimumClusterSize: 2,
             };
           }
+          var icon = {
+            url: map_locations[0].pin,
+            scaledSize: new google.maps.Size(42, 64)
+          };
           for (j in map_locations) {
             var marker = new google.maps.Marker({
               position: new google.maps.LatLng(map_locations[j].lat , map_locations[j].lon),
               map: map,
               html: map_locations[j].popup,
-              icon: map_locations[j].pin,
+              icon: icon,
               original_icon: map_locations[j].pin,
               active_icon: map_locations[j].pin,
               category: map_locations[j].category
