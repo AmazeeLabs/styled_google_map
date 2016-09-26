@@ -111,8 +111,8 @@
               map: map,
               html: map_locations[j].popup,
               icon: icon,
-              original_icon: map_locations[j].pin,
-              active_icon: map_locations[j].pin,
+              original_icon: icon,
+              active_icon: icon,
               category: map_locations[j].category
             });
             markers.push(marker);
