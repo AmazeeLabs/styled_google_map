@@ -156,6 +156,18 @@
         });
         map.initialZoom = true;
         map.fitBounds(bounds);
+        // Recenter map on window resize
+        var center;
+        function calculateCenter() {
+          center = map.getCenter();
+        }
+        google.maps.event.addDomListener(map, 'idle', function() {
+          calculateCenter();
+        });
+        google.maps.event.addDomListener(window, 'resize', function() {
+            var map_center = new google.maps.LatLng(map_settings.map_center.center_coordinates.lat , map_settings.map_center.center_coordinates.lon)
+            map.setCenter(center);
+        });
       }
       // Prevents piling up generated map ids.
       settings.styled_google_map = [];
