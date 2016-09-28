@@ -165,8 +165,8 @@
           calculateCenter();
         });
         google.maps.event.addDomListener(window, 'resize', function() {
-            var map_center = new google.maps.LatLng(map_settings.map_center.center_coordinates.lat , map_settings.map_center.center_coordinates.lon)
-            map.setCenter(center);
+          google.maps.event.trigger(map, 'resize');
+          map.setCenter(center);
         });
       }
       // Prevents piling up generated map ids.
