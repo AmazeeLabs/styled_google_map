@@ -425,7 +425,7 @@ class StyledGoogleMapStyle extends StylePluginBase {
                     $point = $row->_entity->get($this->options['data_source'])->getValue();
                     $location = $location + $point[0];
                 } else {
-                    break;
+                    continue;
                 }
                 // Add pin image url.
                 if (isset($this->options['pin_source']) && !empty($this->options['pin_source'])) {
