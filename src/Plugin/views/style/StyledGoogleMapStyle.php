@@ -460,11 +460,7 @@ class StyledGoogleMapStyle extends StylePluginBase {
                 // Add category.
                 if (isset($this->options['category_source']) && !empty($this->options['category_source'])) {
                     if (!$row->_entity->get($this->options['category_source'])->isEmpty()) {
-                        if (\Drupal::moduleHandler()->moduleExists('pathauto')) {
-                            $category = \Drupal\pathauto\AliasCleaner::cleanstring($row->_entity->{$this->options['category_source']}->view());
-                        } else {
-                            $category = $row->_entity->{$this->options['category_source']}->view();
-                        }
+                        $category = $row->_entity->{$this->options['category_source']}->view();
                         $location = $location + array(
                             'category' => render($category),
                         );
