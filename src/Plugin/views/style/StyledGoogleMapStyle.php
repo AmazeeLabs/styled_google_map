@@ -474,8 +474,11 @@ class StyledGoogleMapStyle extends StylePluginBase {
         // Add custom settings.
         $cluster_pin_image = '';
         $active_pin_image = '';
-        if ($this->options['styled_google_map_view_cluster_pin']) {
-            $cluster_pin_image = file_create_url($this->options['styled_google_map_view_cluster_pin']);
+        if ($this->options['main']['styled_google_map_view_cluster_pin']) {
+            $cluster_pin_image = file_create_url($this->options['main']['styled_google_map_view_cluster_pin']);
+        }
+        if ($this->options['main']['styled_google_map_view_active_pin']) {
+            $active_pin_image = file_create_url($this->options['main']['styled_google_map_view_active_pin']);
         }
         //TODO: sanitize all options.
         $map_settings = array(
@@ -530,7 +533,7 @@ class StyledGoogleMapStyle extends StylePluginBase {
                 ),
             ),
         );
-    }  
+    }
     $output = array();
     $output['#attached']['drupalSettings']['styled_google_map'] = array('map_'.$this->view->dom_id => 'map_'.$this->view->dom_id);
     $output['#attached']['drupalSettings']['maps'] = array('idmap_'.$this->view->dom_id => $map_settings);
