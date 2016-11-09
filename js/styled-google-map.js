@@ -76,23 +76,23 @@
               {
                 textColor: 'white',
                 url: map_settings.style.cluster_pin,
-                height: 73,
-                width: 73,
-                textSize: 17
+                height: 35,
+                width: 35,
+                textSize: 12
               },
               {
                 textColor: 'white',
                 url: map_settings.style.cluster_pin,
-                height: 73,
-                width: 73,
-                textSize: 17
+                height: 35,
+                width: 35,
+                textSize: 12
               },
               {
                 textColor: 'white',
                 url: map_settings.style.cluster_pin,
-                height: 73,
-                width: 73,
-                textSize: 17
+                height: 35,
+                width: 35,
+                textSize: 12
               }
             ];
             var mcOptions = {
