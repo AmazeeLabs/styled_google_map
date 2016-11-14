@@ -8,12 +8,11 @@
 
 (function ($) {
   Drupal.behaviors.styled_google_maps = {
-    attach: function (context) {
-      //console.log(drupalSettings.styled_google_map);
-      var maps = drupalSettings.styled_google_map;
+    attach: function (context, settings) {
+      var maps = settings.styled_google_map;
       var markers = [];
       for (i in maps) {
-        var current_map = drupalSettings.maps['id' + maps[i]];
+        var current_map = settings.maps['id' + maps[i]];
         var map_id = current_map.id;
         if ($('#' + map_id).length) {
           var map_locations = current_map.locations;
@@ -155,7 +154,7 @@
         map.fitBounds(bounds);
       }
       // Prevents piling up generated map ids.
-      drupalSettings.styled_google_map = [];
+      settings.styled_google_map = [];
     }
   }
   /*if (Drupal.ajax !== undefined) {

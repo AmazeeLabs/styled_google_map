@@ -399,7 +399,7 @@ class StyledGoogleMapStyle extends StylePluginBase {
   public function render($results = FALSE) {
     // We check if the views result are empty, or if the settings of this area
     // force showing this area even if the view is empty.
-    if ($this->view->preview) {
+    if (!empty($this->view->live_preview)) {
         $output['preview'] = array(
             '#markup' => '<p>'.$this->t('This is a preview of styled google map plugin. No map is displayed.').'</p>',
         );
