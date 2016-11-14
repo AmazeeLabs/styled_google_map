@@ -129,6 +129,12 @@ class StyledGoogleMapStyle extends StylePluginBase {
       '#options' => $pin_source_options,
       '#default_value' => $this->options['pin_source'] ? $this->options['pin_source'] : NULL,
     );
+    $form['default_pin_source'] = array(
+      '#type' => 'textfield',
+      '#title' => $this->t('Default pin image'),
+      '#default_value' => $this->options['default_pin_source'],
+      '#description' => $this->t('Also you can have a default pin image for all the locations'),
+    );
     $form['popup_source'] = array(
       '#type' => 'select',
       '#title' => $this->t('Which field contains the popup text?'),
@@ -438,6 +444,8 @@ class StyledGoogleMapStyle extends StylePluginBase {
                                 'active_pin' => file_create_url($this->options['main']['styled_google_map_view_active_pin'])
                             );
                         }
+                    } elseif (!empty($this->options['default_pin_source'])) {
+                        $location['pin'] = file_create_url($this->options['default_pin_source']);
                     }
                 }
                 // Add pin popup html.
