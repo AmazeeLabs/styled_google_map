@@ -428,12 +428,14 @@ class StyledGoogleMapStyle extends StylePluginBase {
                     continue;
                 }
                 // Add pin image url.
+                // Add default pin image url.
+                if (!empty($this->options['default_pin_source'])) {
+                  $location['pin'] = file_create_url($this->options['default_pin_source']);
+                }
                 if (isset($this->options['pin_source']) && !empty($this->options['pin_source'])) {
                     if (!$row->_entity->get($this->options['pin_source'])->isEmpty()) {
                         $image = $row->_entity->get($this->options['pin_source'])->first()->get('entity')->getTarget()->getValue();
-                        $location = $location + array(
-                            'pin' => $image->url(),
-                        );
+                        $location['pin'] = $image->url();
                         // Add the active pin image.
                         if (!$this->options['main']['styled_google_map_view_active_pin']) {
                             $location = $location + array(
@@ -444,8 +446,6 @@ class StyledGoogleMapStyle extends StylePluginBase {
                                 'active_pin' => file_create_url($this->options['main']['styled_google_map_view_active_pin'])
                             );
                         }
-                    } elseif (!empty($this->options['default_pin_source'])) {
-                        $location['pin'] = file_create_url($this->options['default_pin_source']);
                     }
                 }
                 // Add pin popup html.
