@@ -78,21 +78,27 @@
                 url: map_settings.style.cluster_pin,
                 height: 35,
                 width: 35,
-                textSize: 12
+                textSize: 12,
+                fontFamily: '"franklin-gothic-urw", Helvetica, Arial, sans-serif',
+                fontWeight: 'normal'
               },
               {
                 textColor: 'white',
                 url: map_settings.style.cluster_pin,
                 height: 35,
                 width: 35,
-                textSize: 12
+                textSize: 12,
+                fontFamily: '"franklin-gothic-urw", Helvetica, Arial, sans-serif',
+                fontWeight: 'normal'
               },
               {
                 textColor: 'white',
                 url: map_settings.style.cluster_pin,
                 height: 35,
                 width: 35,
-                textSize: 12
+                textSize: 12,
+                fontFamily: '"franklin-gothic-urw", Helvetica, Arial, sans-serif',
+                fontWeight: 'normal'
               }
             ];
             var mcOptions = {
