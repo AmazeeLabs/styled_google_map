@@ -417,7 +417,7 @@ class StyledGoogleMapStyle extends StylePluginBase {
     if (!empty($results)) {
         // Get all geofield locations.
         $locations = array();
-        foreach ($results as $row) {
+        foreach ($results as $id => $row) {
             $location = array();
             if (isset($this->options['data_source']) && !empty($this->options['data_source'])) {
                 // Add geofield data.
@@ -450,8 +450,7 @@ class StyledGoogleMapStyle extends StylePluginBase {
                 }
                 // Add pin popup html.
                 if (isset($this->options['popup_source']) && !empty($this->options['popup_source'])) {
-                    if (!$row->_entity->get($this->options['popup_source'])->isEmpty()) {
-                        $popup = $row->_entity->{$this->options['popup_source']}->view();
+                    if ($popup = $this->getField($id, $this->options['popup_source'])) {
                         $location = $location + array(
                             'popup' => render($popup),
                         );
