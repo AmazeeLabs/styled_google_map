@@ -107,7 +107,7 @@
               minimumClusterSize: 2,
             };
           }
-          var size = window.location.pathname.substr(1,3) == 'map' ? new google.maps.Size(20, 30) : new google.maps.Size(42, 64);
+          var size = new google.maps.Size(20, 30);
           for (j in map_locations) {
             var icon = {
               url: map_locations[j].pin,
