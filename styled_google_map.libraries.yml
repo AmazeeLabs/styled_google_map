@@ -6,7 +6,8 @@ styled-google-map:
     //cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js: { type: external }
     js/styled-google-map.js: {}
   css:
-    css/styled-google-map.css : {}
+    layout:
+      css/styled-google-map.css : {}
   dependencies:
     - core/jquery
     - core/drupal
