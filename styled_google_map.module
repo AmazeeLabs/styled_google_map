@@ -1,6 +1,7 @@
 <?php
 
-/**
+use Drupal\Component\Utility\Xss;
+ /**
  * @file
  * Contains all hooks and functions for the Styled Google Map module.
  */
@@ -93,7 +94,7 @@ function theme_styled_google_map(array $variables) {
     // Sanitize the output of the style settings.
     foreach ($settings['style'] as $id => $setting) {
       if ($id != 'style') {
-        $location[$id] = \Drupal\Component\Utility\Xss::filter($settings['style'][$id]);
+        $location[$id] = Xss::filter($settings['style'][$id]);
       }
     }
     // Get the label settings.
